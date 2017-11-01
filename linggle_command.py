@@ -1,0 +1,67 @@
+# -*- coding: utf-8 -*-
+from itertools import product
+
+LONGEST_LEN = 5
+
+# TODO: pron: Nh
+POS_WILDCARD = {
+    'v.': 'V.',
+    'n.': 'N.',
+    'adj.': 'A.',
+    'prep.': 'P.',
+    'det.': 'DET.',
+    'conj.': 'C.',
+    'pron.': 'PRON.',
+    'adv.': 'ADV.',
+    'cl.': 'Nf.',
+}
+
+
+def item_to_candidate(item):
+    for token in item.split('/'):
+        if token.startswith('?'):
+            yield ''
+            token = token[1:]
+        if token.startswith('~'):
+            for synonym in find_synonyms(token):
+                yield synonym
+            token = token[1:]
+        if token in POS_WILDCARD:
+            # print(token, POS_WILDCARD[token])
+            token = ' ' + POS_WILDCARD[token] + ' '
+        if token == '_':
+            yield ' _ '
+        # print(token)
+        yield token
+
+
+def gen_candidates(query):
+    for item in query.split():
+        if item == '*':
+            yield [''] + ['_'.join(' '*(n+1)) for n in range(1, LONGEST_LEN+1)]
+        else:
+            yield list(item_to_candidate(item))
+
+
+def candidates_to_cmds(candidates):
+    for tokens in product(*candidates):
+        tokens = ''.join(token for token in tokens if token).strip().split()
+        if len(tokens) > LONGEST_LEN:
+            continue
+        yield ' '.join(tokens)
+
+
+def expand_query(querystr):
+    # replace alternative symbol for selection operator `/`
+    querystr = querystr.replace('@', '/')
+    # generate possible candidates for each token in the query command 
+    candidates = list(gen_candidates(querystr))
+    # generate the basic commands of linggle based on the candidates
+    linggle_cmds = {cmd for cmd in candidates_to_cmds(candidates)}
+    # print(linggle_cmds)
+    return linggle_cmds
+
+
+def find_synonyms(word):
+    # TODO: add similiar words
+    return []
