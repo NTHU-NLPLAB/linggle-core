@@ -52,6 +52,7 @@ def candidates_to_cmds(candidates):
 
 
 def expand_query(querystr):
+    querystr = querystr.strip()
     # replace alternative symbol for selection operator `/`
     querystr = querystr.replace('@', '/')
     # generate possible candidates for each token in the query command 

@@ -12,11 +12,11 @@ CONNSTR = "dbname='{dbname}' user='{user}' password='{password}' host='{host}' p
 
 
 settings = {
-    'dbname': os.environ.get('dbname', 'linggle'),
-    'host': os.environ.get('host', 'localhost'),
-    'user': os.environ.get('user', 'linggle'),
-    'password': os.environ.get('password', ''),
-    'port': int(os.environ.get('port', 5432))
+    'dbname': os.environ.get('PGDATABASE', 'linggle'),
+    'host': os.environ.get('PGHOST', 'localhost'),
+    'user': os.environ.get('PGUSER', 'linggle'),
+    'password': os.environ.get('PGPASSWORD', ''),
+    'port': int(os.environ.get('PGPORT', 5432))
 }
 
 
@@ -30,6 +30,7 @@ class PostgresLinggle(Linggle):
             self.conn.close()
 
     def query(self, querystr):
+        querystr = querystr.strip()
         # print(querystr)
         # expand query description and then gather results
         with self.conn.cursor() as cursor:
