@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import os
-
 from flask import Flask, jsonify, request
 
 from linggle_postgres import PostgresLinggle
@@ -20,20 +18,25 @@ def index():
     return "mini linggle api: \/?=<query>"
 
 
-@app.route("/query", methods=['POST'])
 @app.route("/query/<query>", methods=['GET'])
-def linggle(query):
-    if request.method == 'POST':
-        query = request.form.get('query', '')
-
+def linggle_get(query):
     result = linggleit(query)
-    return jsonify(result)
+    if result:
+        return jsonify(result)
+    return jsonify(ERROR_MESSAGE)
+
+
+@app.route("/query", methods=['POST'])
+def linggle_post():
+    return linggle_get(request.json.get('query', ''))
 
 
 def linggleit(query):
-    ngrams = miniLinggle[query]
-    result = {'query': query, 'result': ngrams}
-    return result
+    query = query.strip()
+    if query:
+        ngrams = miniLinggle[query]
+        result = {'query': query, 'result': ngrams}
+        return result
 
 
 if __name__ == "__main__":
