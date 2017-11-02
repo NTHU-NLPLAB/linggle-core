@@ -46,7 +46,12 @@ def gen_candidates(query):
 
 def candidates_to_cmds(candidates):
     for tokens in product(*candidates):
+
+        # Chinese words are compact
         tokens = ''.join(token for token in tokens if token).strip().split()
+        # english words are separated by space
+        # tokens = ' '.join(token for token in tokens if token).strip().split()
+
         if len(tokens) > LONGEST_LEN:
             continue
         yield ' '.join(tokens)
@@ -62,6 +67,18 @@ def expand_query(querystr):
     linggle_cmds = {cmd for cmd in candidates_to_cmds(candidates)}
     # print(linggle_cmds)
     return linggle_cmds
+
+
+def convert_to_nopos_query(querystr):
+    tokens = []
+    conditions = []
+    for i, token in enumerate(querystr.split()):
+        if token.lower() in POS_WILDCARD:
+            conditions.append((i, token[:-1]))
+            tokens.append('_')
+        else:
+            tokens.append(token)
+    return ' '.join(tokens), conditions
 
 
 def find_synonyms(word):

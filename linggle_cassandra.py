@@ -3,10 +3,10 @@
 import os
 from collections import Counter
 
-from linggle import Linggle
-from linggle_command import POS_WILDCARD, expand_query
-from cassandra.cluster import Cluster
 from cassandra.auth import PlainTextAuthProvider
+from cassandra.cluster import Cluster
+from linggle import Linggle
+from linggle_command import expand_query, convert_to_nopos_query
 from pos_table import has_pos
 
 QUERY_CMD = "SELECT ngram, count FROM web1t WHERE query=%s;"
@@ -23,7 +23,7 @@ keyspace = os.environ.get('keyspace', 'linggle')
 class CassandraLinggle(Linggle):
     def __init__(self):
         auth_provider = PlainTextAuthProvider(**auth_settings)
-        self.cluster = Cluster(cluster=cluster, auth_provider=auth_provider)
+        self.cluster = Cluster(cluster, auth_provider=auth_provider)
         self.session = self.cluster.connect(keyspace)
 
     def close(self):
@@ -35,19 +35,13 @@ class CassandraLinggle(Linggle):
         for query_unit in expand_query(querystr):
             for ngram, count in self.__query__(query_unit):
                 result[ngram] = count
+        return result.most_common()
 
     def __query__(self, querystr):
-        tokens = []
-        pos_condition = []
-        for i, token in enumerate(querystr.split()):
-            if token in POS_WILDCARD:
-                pos_condition.append((i, token[:-1]))
-                tokens.append('_')
-            else:
-                tokens.append(token)
-        query = ' '.join(tokens)
+        query, conditions = convert_to_nopos_query(querystr)
 
         for row in self.session.execute(QUERY_CMD, (query, ), timeout=60.0):
             ngram = tuple(row.ngram.split())
-            if all(i < len(ngram) and has_pos(ngram[i], pos) for i, pos in pos_condition):
+            # print(row.ngram)
+            if all(i < len(ngram) and has_pos(ngram[i], pos.lower()) for i, pos in conditions):
                 yield row.ngram, row.count
