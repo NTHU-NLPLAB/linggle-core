@@ -2,6 +2,9 @@
 # -*- coding: utf-8 -*-
 from itertools import product
 
+from pos_table import has_pos
+
+
 LONGEST_LEN = 5
 
 # TODO: pron: Nh
@@ -71,14 +74,19 @@ def expand_query(querystr):
 
 def convert_to_nopos_query(querystr):
     tokens = []
-    conditions = []
+    condition = []
     for i, token in enumerate(querystr.split()):
         if token.lower() in POS_WILDCARD:
-            conditions.append((i, token[:-1]))
+            condition.append((i, token[:-1]))
             tokens.append('_')
         else:
             tokens.append(token)
-    return ' '.join(tokens), conditions
+    return ' '.join(tokens), condition
+
+
+def satisfy_pos_condition(ngram, condition):
+    ngram = ngram.split(' ')
+    return all(has_pos(ngram[i], pos.lower()) for i, pos in condition)
 
 
 def find_synonyms(word):
