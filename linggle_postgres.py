@@ -6,8 +6,6 @@ import psycopg2
 from linggle import Linggle
 
 SELECT_CMD = "SELECT results FROM LINGGLEZH WHERE query=%s;"
-CONNSTR = "dbname='{dbname}' user='{user}' password='{password}' host='{host}' port='{port}'"
-
 
 settings = {
     'dbname': os.environ.get('PGDATABASE', 'linggle'),
@@ -20,8 +18,7 @@ settings = {
 
 class PostgresLinggle(Linggle):
     def __init__(self):
-        self.connstr = CONNSTR.format(**settings)
-        self.conn = psycopg2.connect(self.connstr)
+        self.conn = psycopg2.connect(**settings)
 
     def close(self):
         if not self.conn.closed:
