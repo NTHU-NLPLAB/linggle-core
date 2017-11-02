@@ -10,14 +10,6 @@ miniLinggle = PostgresLinggle()
 ERROR_MESSAGE = {"message": "Some problems occurred, please try again later"}
 
 
-@app.route("/", methods=['GET'])
-def index():
-    search = request.args.get('search', '')
-    if search:
-        return jsonify(linggleit(search))
-    return "mini linggle api: \/?=<query>"
-
-
 @app.route("/query/<query>", methods=['GET'])
 def linggle_get(query):
     result = linggleit(query)
