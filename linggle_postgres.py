@@ -40,6 +40,7 @@ class PostgresLinggle(Linggle):
                 res = cursor.fetchone()
                 if res:
                     for row in res:
+                        # TODO: handle same ngram with different pos
                         for ngram, count in res[0]:
                             result[ngram] = count
 
