@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from itertools import product
-
-from pos_table import has_pos
 from math import ceil, log10
 from operator import itemgetter
 
+from pos_table import has_pos
 
 LONGEST_LEN = 5
 
