@@ -4,8 +4,9 @@ import os
 
 from cassandra.auth import PlainTextAuthProvider
 from cassandra.cluster import Cluster
-from linggle import Linggle
-from linggle_command import convert_to_nopos_query, satisfy_pos_condition
+
+from .linggle import Linggle
+from .linggle_command import convert_to_nopos_query, satisfy_pos_condition
 
 QUERY_CMD = "SELECT ngram, count FROM web1t WHERE query=%s;"
 

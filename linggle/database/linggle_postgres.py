@@ -3,7 +3,8 @@
 import os
 
 import psycopg2
-from linggle import Linggle
+
+from .linggle import Linggle
 
 QUERY_CMD = "SELECT results FROM LINGGLEZH WHERE query=%s;"
 
