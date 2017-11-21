@@ -22,7 +22,7 @@ setup(
     author='NLPLab',
     author_email='jjc@nlplab.cc',
     # license='MIT',
-    packages=['linggle'],   
+    packages=['linggle'],
     install_requires=[
         'psycopg2',
         'flask',

@@ -4,7 +4,7 @@ from itertools import product
 from math import ceil, log10
 from operator import itemgetter
 
-from pos_table import has_pos
+from ..pos.pos_table import has_pos
 
 LONGEST_LEN = 5
 
@@ -65,7 +65,7 @@ def expand_query(querystr):
     querystr = querystr.strip()
     # replace alternative symbol for selection operator `/`
     querystr = querystr.replace('@', '/')
-    # generate possible candidates for each token in the query command 
+    # generate possible candidates for each token in the query command
     candidates = list(gen_candidates(querystr))
     # generate the basic commands of linggle based on the candidates
     linggle_cmds = {cmd for cmd in candidates_to_cmds(candidates)}

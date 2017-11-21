@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from collections import Counter
-from linggle_command import expand_query
+
+from .linggle_command import expand_query
 
 
 class Linggle:

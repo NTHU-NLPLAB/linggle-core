@@ -22,7 +22,7 @@ class PostgresLinggle(Linggle):
         self.conn = psycopg2.connect(**settings)
 
     def close(self):
-        if not self.conn.closed:
+        if hasattr(self, 'conn') and not self.conn.closed:
             self.conn.close()
 
     def query(self, cmd):

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, jsonify, request
 
-from ..linggle import PostgresLinggle
+from linggle.database import PostgresLinggle
 
 app = Flask(__name__)
 miniLinggle = PostgresLinggle()
