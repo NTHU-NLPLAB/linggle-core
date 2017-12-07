@@ -20,7 +20,11 @@ POS_WILDCARD = {
 }
 
 
-def item_to_candidate(item):
+def find_synonyms_empty(word):
+    return []
+
+
+def item_to_candidate(item, find_synonyms=find_synonyms_empty):
     for token in item.split('/'):
         if token.startswith('?'):
             yield ''
@@ -86,8 +90,3 @@ def convert_to_nopos_query(querystr):
 def satisfy_pos_condition(ngram, condition):
     ngram = ngram.split(' ')
     return all(has_pos(ngram[i], pos.lower()) for i, pos in condition)
-
-
-def find_synonyms(word):
-    # TODO: add similiar words
-    return []
