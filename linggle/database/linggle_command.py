@@ -4,7 +4,7 @@ from itertools import product
 from math import ceil, log10
 from operator import itemgetter
 
-from ..pos.pos_table import has_pos
+from ..pos import has_pos
 
 LONGEST_LEN = 5
 
