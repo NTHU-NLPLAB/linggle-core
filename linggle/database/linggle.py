@@ -26,7 +26,7 @@ class Linggle:
         for simple_cmd in expand_query(cmd):
             # TODO: handle same ngram with different pos
             for ngram, count in self.__query(simple_cmd):
-                result[ngram] = count
+                result[ngram] = int(count)
         return result.most_common(topn)
 
     def __query(self, query):
