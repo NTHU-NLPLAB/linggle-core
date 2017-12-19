@@ -25,7 +25,7 @@ class PostgresLinggle(Linggle):
         if hasattr(self, 'conn') and not self.conn.closed:
             self.conn.close()
 
-    def query(self, cmd):
+    def __query(self, cmd):
         with self.conn.cursor() as cursor:
             cursor.execute(QUERY_CMD, [cmd])
             res = cursor.fetchone()
