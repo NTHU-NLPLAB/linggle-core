@@ -13,7 +13,7 @@ class Linggle:
         self.close()
 
     def __getitem__(self, cmd):
-        return self.query(cmd)
+        return self.__query(cmd)
 
     def __enter__(self):
         return self
@@ -21,15 +21,15 @@ class Linggle:
     def __exit__(self, exc_type, exc_value, traceback):
         self.close()
 
-    def query(self, cmd, topn=50):
+    def __query(self, cmd, topn=50):
         result = Counter()
         for simple_cmd in expand_query(cmd):
             # TODO: handle same ngram with different pos
-            for ngram, count in self.__query(simple_cmd):
+            for ngram, count in self.query(simple_cmd):
                 result[ngram] = int(count)
         return result.most_common(topn)
 
-    def __query(self, query):
+    def query(self, query):
         return []
 
     def close(self):

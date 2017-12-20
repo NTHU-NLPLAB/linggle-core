@@ -6,7 +6,7 @@ import psycopg2
 
 from .linggle import Linggle
 
-QUERY_CMD = "SELECT results FROM LINGGLEZH WHERE query=%s;"
+QUERY_CMD = "SELECT results FROM LINGGLE WHERE query=%s;"
 
 settings = {
     'dbname': os.environ.get('PGDATABASE', 'linggle'),
@@ -25,7 +25,7 @@ class PostgresLinggle(Linggle):
         if hasattr(self, 'conn') and not self.conn.closed:
             self.conn.close()
 
-    def __query(self, cmd):
+    def query(self, cmd):
         with self.conn.cursor() as cursor:
             cursor.execute(QUERY_CMD, [cmd])
             res = cursor.fetchone()
