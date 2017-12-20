@@ -33,13 +33,15 @@ def item_to_candidate(item, find_synonyms=find_synonyms_empty):
             for synonym in find_synonyms(token):
                 yield synonym
             token = token[1:]
+
         if token in POS_WILDCARD:
             # print(token, POS_WILDCARD[token])
             token = ' ' + POS_WILDCARD[token] + ' '
-        if token == '_':
+        elif token == '_':
             yield ' _ '
-        # print(token)
-        yield token
+        else:
+            # print(token)
+            yield token
 
 
 def gen_candidates(query):
