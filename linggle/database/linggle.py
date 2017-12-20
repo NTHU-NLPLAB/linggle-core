@@ -6,9 +6,6 @@ from .linggle_command import expand_query
 
 
 class Linggle:
-    def __init__(self):
-        pass
-
     def __del__(self):
         self.close()
 
