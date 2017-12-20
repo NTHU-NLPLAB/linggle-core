@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, jsonify, request
 
-from linggle.database import PostgresLinggle
+from linggle.database import PostgresLinggle as Linggle
 
 app = Flask(__name__)
-miniLinggle = PostgresLinggle()
+miniLinggle = Linggle()
 
 ERROR_MESSAGE = {"message": "Some problems occurred, please try again later"}
 
