@@ -23,6 +23,8 @@ class Linggle:
         for simple_cmd in expand_query(cmd):
             # TODO: handle same ngram with different pos
             for ngram, count in self.query(simple_cmd):
+                # force int type to prevent json serialization error
+                # (ex., Decimal in Cassandra)
                 result[ngram] = int(count)
         return result.most_common(topn)
 

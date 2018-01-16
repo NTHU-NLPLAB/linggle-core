@@ -6,7 +6,8 @@ import psycopg2
 
 from .linggle import Linggle
 
-QUERY_CMD = "SELECT results FROM LINGGLE WHERE query=%s;"
+LINGGLE_TABLE = os.environ.get('LINGGLE_TABLE', 'LINGGLE')
+QUERY_CMD = "SELECT results FROM {} WHERE query=%s;".format(LINGGLE_TABLE)
 
 settings = {
     'dbname': os.environ.get('PGDATABASE', 'linggle'),

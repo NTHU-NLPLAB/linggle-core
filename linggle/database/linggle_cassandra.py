@@ -8,7 +8,8 @@ from cassandra.cluster import Cluster
 from .linggle import Linggle
 from .linggle_command import convert_to_nopos_query, satisfy_pos_condition
 
-QUERY_CMD = "SELECT ngram, count FROM web1t WHERE query=%s;"
+LINGGLE_TABLE = os.environ.get('LINGGLE_TABLE', 'LINGGLE')
+QUERY_CMD = "SELECT ngram, count FROM {} WHERE query=%s;".format(LINGGLE_TABLE)
 
 
 auth_settings = {

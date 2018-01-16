@@ -35,12 +35,10 @@ def item_to_candidate(item, find_synonyms=find_synonyms_empty):
             token = token[1:]
 
         if token in POS_WILDCARD:
-            # print(token, POS_WILDCARD[token])
             token = ' ' + POS_WILDCARD[token] + ' '
         elif token == '_':
             yield ' _ '
         else:
-            # print(token)
             yield token
 
 
@@ -73,7 +71,6 @@ def expand_query(querystr):
     candidates = list(gen_candidates(querystr))
     # generate the basic commands of linggle based on the candidates
     linggle_cmds = {cmd for cmd in candidates_to_cmds(candidates)}
-    # print(linggle_cmds)
     return linggle_cmds
 
 
