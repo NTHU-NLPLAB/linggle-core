@@ -2,22 +2,9 @@
 # -*- coding: utf-8 -*-
 from itertools import product
 
-from ..pos import has_pos
+from ..pos import POS_WILDCARD, has_pos
 
 LONGEST_LEN = 5
-
-# TODO: pron: Nh
-POS_WILDCARD = {
-    'v.': 'V.',
-    'n.': 'N.',
-    'adj.': 'A.',
-    'prep.': 'P.',
-    'det.': 'DET.',
-    'conj.': 'C.',
-    'pron.': 'PRON.',
-    'adv.': 'ADV.',
-    'cl.': 'Nf.',
-}
 
 
 def find_synonyms_empty(word):
@@ -53,8 +40,8 @@ def gen_candidates(query):
 def candidates_to_cmds(candidates, delim=' '):
     for tokens in product(*candidates):
 
-        # Chinese: words are compact
-        # English: words are separated by space
+        # Chinese: words are compact (delim: '')
+        # English: words are separated by space (delim: ' ')
         tokens = delim.join(token for token in tokens if token).strip().split()
 
         if len(tokens) > LONGEST_LEN:

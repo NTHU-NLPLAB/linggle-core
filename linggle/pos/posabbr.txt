@@ -1,0 +1,9 @@
+a.	adj.
+r.	rb.	adv.
+n.	noun.
+v.	verb.
+d.	det.
+p.	prep.
+pron.
+c.	conj.
+i.	interj.
