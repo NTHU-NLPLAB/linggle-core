@@ -30,9 +30,9 @@ class CassandraLinggle(Linggle):
         if not self.cluster.is_shutdown:
             self.cluster.shutdown()
 
-    def query(self, cmd):
-        cmd, condition = convert_to_nopos_query(cmd)
-
-        for row in self.session.execute(QUERY_CMD, (cmd, ), timeout=60.0):
-            if satisfy_pos_condition(row.ngram, condition):
-                yield row.ngram, row.count
+    def query(self, cmds):
+        for cmd in cmds:
+            cmd, condition = convert_to_nopos_query(cmd)
+            for row in self.session.execute(QUERY_CMD, [cmd], timeout=60.0):
+                if satisfy_pos_condition(row.ngram, condition):
+                    yield row.ngram, row.count

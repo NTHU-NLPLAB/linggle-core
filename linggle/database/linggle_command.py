@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from itertools import product
+from collections import defaultdict
 
 from ..pos import has_pos
 
@@ -54,9 +55,9 @@ def candidates_to_cmds(candidates):
     for tokens in product(*candidates):
 
         # Chinese words are compact
-        tokens = ''.join(token for token in tokens if token).strip().split()
+        # tokens = ''.join(token for token in tokens if token).strip().split()
         # english words are separated by space
-        # tokens = ' '.join(token for token in tokens if token).strip().split()
+        tokens = ' '.join(token for token in tokens if token).strip().split()
 
         if len(tokens) > LONGEST_LEN:
             continue
@@ -70,14 +71,14 @@ def expand_query(querystr):
     # generate possible candidates for each token in the query command
     candidates = list(gen_candidates(querystr))
     # generate the basic commands of linggle based on the candidates
-    linggle_cmds = {cmd for cmd in candidates_to_cmds(candidates)}
+    linggle_cmds = tuple({cmd for cmd in candidates_to_cmds(candidates)})
     return linggle_cmds
 
 
-def convert_to_nopos_query(querystr):
+def convert_to_nopos_query(cmd):
     tokens = []
     condition = []
-    for i, token in enumerate(querystr.split()):
+    for i, token in enumerate(cmd.split()):
         if token.lower() in POS_WILDCARD:
             condition.append((i, token[:-1]))
             tokens.append('_')

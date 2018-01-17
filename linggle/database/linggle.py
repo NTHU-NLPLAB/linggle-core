@@ -21,7 +21,6 @@ class Linggle:
     def __query(self, cmd, topn=50):
         result = Counter()
         simple_cmds = expand_query(cmd)
-        print(simple_cmds)
         # TODO: handle same ngram with different pos
         for ngram, count in self.query(simple_cmds):
             # force int type to prevent json serialization error
