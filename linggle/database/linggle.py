@@ -20,12 +20,13 @@ class Linggle:
 
     def __query(self, cmd, topn=50):
         result = Counter()
-        for simple_cmd in expand_query(cmd):
-            # TODO: handle same ngram with different pos
-            for ngram, count in self.query(simple_cmd):
-                # force int type to prevent json serialization error
-                # (ex., Decimal in Cassandra)
-                result[ngram] = int(count)
+        simple_cmds = expand_query(cmd)
+        print(simple_cmds)
+        # TODO: handle same ngram with different pos
+        for ngram, count in self.query(simple_cmds):
+            # force int type to prevent json serialization error
+            # (ex., Decimal in Cassandra)
+            result[ngram] = int(count)
         return result.most_common(topn)
 
     def query(self, query):

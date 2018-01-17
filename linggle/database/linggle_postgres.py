@@ -7,7 +7,7 @@ import psycopg2
 from .linggle import Linggle
 
 LINGGLE_TABLE = os.environ.get('LINGGLE_TABLE', 'LINGGLE')
-QUERY_CMD = "SELECT results FROM {} WHERE query=%s;".format(LINGGLE_TABLE)
+QUERY_CMD = "SELECT results FROM {} WHERE query IN %s;".format(LINGGLE_TABLE)
 
 settings = {
     'dbname': os.environ.get('PGDATABASE', 'linggle'),
@@ -26,10 +26,9 @@ class PostgresLinggle(Linggle):
         if hasattr(self, 'conn') and not self.conn.closed:
             self.conn.close()
 
-    def query(self, cmd):
+    def query(self, cmds):
         with self.conn.cursor() as cursor:
-            cursor.execute(QUERY_CMD, [cmd])
-            res = cursor.fetchone()
-            if res:
-                return res[0]
-        return []
+            cursor.execute(QUERY_CMD, [cmds])
+            for row in cursor:
+                for ngram, count in row[0]:
+                    yield ngram, count
