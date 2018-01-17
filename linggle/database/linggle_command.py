@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from itertools import product
-from collections import defaultdict
 
 from ..pos import has_pos
 
@@ -51,13 +50,12 @@ def gen_candidates(query):
             yield list(item_to_candidate(item))
 
 
-def candidates_to_cmds(candidates):
+def candidates_to_cmds(candidates, delim=' '):
     for tokens in product(*candidates):
 
-        # Chinese words are compact
-        # tokens = ''.join(token for token in tokens if token).strip().split()
-        # english words are separated by space
-        tokens = ' '.join(token for token in tokens if token).strip().split()
+        # Chinese: words are compact
+        # English: words are separated by space
+        tokens = delim.join(token for token in tokens if token).strip().split()
 
         if len(tokens) > LONGEST_LEN:
             continue
