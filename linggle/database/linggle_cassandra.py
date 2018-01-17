@@ -21,7 +21,8 @@ keyspace = os.environ.get('keyspace', 'linggle')
 
 
 class CassandraLinggle(Linggle):
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         auth_provider = PlainTextAuthProvider(**auth_settings)
         self.cluster = Cluster(cluster, auth_provider=auth_provider)
         self.session = self.cluster.connect(keyspace)

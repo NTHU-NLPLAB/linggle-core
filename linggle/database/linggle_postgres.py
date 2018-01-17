@@ -19,7 +19,8 @@ settings = {
 
 
 class PostgresLinggle(Linggle):
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.conn = psycopg2.connect(**settings)
 
     def close(self):

@@ -2,10 +2,15 @@
 # -*- coding: utf-8 -*-
 from collections import Counter
 
-from .linggle_command import expand_query
+from .linggle_command import expand_query, find_synonyms_empty
 
 
 class Linggle:
+    def __init__(self, *args, find_synonyms=find_synonyms_empty,
+                 word_delimiter=' ', **kwargs):
+        self.find_synonyms = find_synonyms
+        self.word_delimiter = word_delimiter
+
     def __del__(self):
         self.close()
 
