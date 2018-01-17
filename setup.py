@@ -8,8 +8,8 @@ def readme():
 
 setup(
     name='linggle',
-    version='0.1',
-    description='Linggle data processing, db, and simple web service.',
+    version='0.2',
+    description='Linggle data processing, db, and simple web service script.',
     long_description=readme(),
     classifiers=[
         'Development Status :: 3 - Alpha',
@@ -23,7 +23,8 @@ setup(
     author_email='jjc@nlplab.cc',
     # license='MIT',
     packages=['linggle'],
-    install_requires=[
+    install_requires=[],
+    extras_require=[
         'psycopg2',
         'flask',
         'cassandra-driver'
