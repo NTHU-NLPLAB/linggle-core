@@ -25,7 +25,7 @@ class Linggle:
 
     def __query(self, cmd, topn=50):
         result = Counter()
-        simple_cmds = expand_query(cmd)
+        simple_cmds = expand_query(cmd, self.find_synonyms, self.word_delimiter)
         # TODO: handle same ngram with different pos
         for ngram, count in self.query(simple_cmds):
             # force int type to prevent json serialization error

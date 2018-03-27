@@ -29,12 +29,12 @@ def item_to_candidate(item, find_synonyms=find_synonyms_empty):
             yield token
 
 
-def gen_candidates(query):
+def gen_candidates(query, find_synonyms=find_synonyms_empty):
     for item in query.split():
         if item == '*':
             yield [''] + ['_'.join(' '*(n+1)) for n in range(1, LONGEST_LEN+1)]
         else:
-            yield list(item_to_candidate(item))
+            yield list(item_to_candidate(item, find_synonyms))
 
 
 def candidates_to_cmds(candidates, delim=' '):
@@ -49,14 +49,14 @@ def candidates_to_cmds(candidates, delim=' '):
         yield ' '.join(tokens)
 
 
-def expand_query(querystr):
+def expand_query(querystr, find_synonyms=find_synonyms_empty, delim=' '):
     querystr = querystr.strip()
     # replace alternative symbol for selection operator `/`
     querystr = querystr.replace('@', '/')
     # generate possible candidates for each token in the query command
-    candidates = list(gen_candidates(querystr))
+    candidates = list(gen_candidates(querystr, find_synonyms))
     # generate the basic commands of linggle based on the candidates
-    linggle_cmds = tuple({cmd for cmd in candidates_to_cmds(candidates)})
+    linggle_cmds = tuple({cmd for cmd in candidates_to_cmds(candidates, delim)})
     return linggle_cmds
 
 
