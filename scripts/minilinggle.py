@@ -29,6 +29,8 @@ def linggleit(query):
         ngrams = miniLinggle[query]
         result = {'query': query, 'result': ngrams}
         return result
+    else:
+        return {'query': query, 'result': []}
 
 
 if __name__ == "__main__":
