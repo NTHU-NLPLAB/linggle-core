@@ -17,9 +17,9 @@ def item_to_candidate(item, find_synonyms=find_synonyms_empty):
             yield ''
             token = token[1:]
         if token.startswith('~'):
+            token = token[1:]
             for synonym in find_synonyms(token):
                 yield synonym
-            token = token[1:]
 
         if token in POS_WILDCARD:
             token = ' ' + POS_WILDCARD[token] + ' '
