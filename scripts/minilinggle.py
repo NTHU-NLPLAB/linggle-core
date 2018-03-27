@@ -1,13 +1,29 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import requests
 from flask import Flask, jsonify, request
 
-from linggle.database import PostgresLinggle as Linggle
+from linggle.database import CassandraLinggle as Linggle
 
 app = Flask(__name__)
-miniLinggle = Linggle()
+miniLinggle = None
 
 ERROR_MESSAGE = {"message": "Some problems occurred, please try again later"}
+SIM_API_URL = "http://nlp-ultron.cs.nthu.edu.tw:9888/{0}"
+
+
+def get_similar_words(word):
+    r = requests.get(SIM_API_URL.format(word))
+    if r.ok:
+        for sim in r.json():
+            yield sim
+    else:
+        return []
+
+
+def init_linggle():
+    global miniLinggle
+    miniLinggle = Linggle(find_synonyms=get_similar_words)
 
 
 @app.route("/query/<query>", methods=['GET'])
@@ -33,5 +49,6 @@ def linggleit(query):
         return {'query': query, 'result': []}
 
 
+init_linggle()
 if __name__ == "__main__":
     app.run()
