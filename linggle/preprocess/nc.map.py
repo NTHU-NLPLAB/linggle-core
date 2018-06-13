@@ -2,8 +2,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function, unicode_literals
 import fileinput
-import sys
-import io
 
 numbers = set('0123456789０１２３４５６７８９')
 eng_symbols = set('{}"\'()[].,:;+!?-*/&|<>=~$%\n\t ')
@@ -16,43 +14,17 @@ def parse_line(line):
     return abbr, simpleTag
 
 
-# def load_posabbr():
-#     posabbr = {}
-#     # for abbr, simpleTag, ckipTags in map(parse_line, open('pos_list.txt')):
-#     for abbr, simpleTag, ckipTags in map(parse_line, io.open('pos_list.txt', 'rt')):
-#         posabbr[simpleTag] = abbr
-#         for ckipTag in ckipTags:
-#             posabbr[ckipTag] = abbr
-#     return posabbr
-
 def load_posabbr():
     posabbr = {}
     # for abbr, simpleTag in map(parse_line, open('pos_list.txt')):
-    f = open('pos.txt','rt')
-    for line in f .readlines():
+    for line in open('pos.txt'):
         if len(line.strip().split('\t')) == 3:
             posabbr[line.strip().split('\t')[1].lower()] = line.strip().split('\t')[0]
         # print(line.strip().split('\t')[1])
         else:
             posabbr[line.strip().split('\t')[2].lower()] = line.strip().split('\t')[1]
-    # for abbr, old_tag,b in map(parse_line, io.open('new_pos_text _cy.txt', 'rt')):
-        # posabbr[old_tag.lower()] = abbr
-
     return posabbr
 
-
-# def get_abbr(tag):
-#     # Vh11, vh13, vh15, vh16, vh2
-#     if tag.startswith('V') or tag=='SHI':
-#         if tag in ['VH11', 'VH13', 'VH15', 'VH16', 'VH21', 'VH22']:
-#             return 'ADJ'
-#         return 'V'
-#     elif tag in posabbr:
-#         return posabbr[tag]
-#     elif tag.startswith('P'):
-#         return 'P'
-#     else:
-#         return tag
 
 def get_abbr(tag):
     if tag in posabbr:
@@ -88,18 +60,8 @@ def to_tokens(line):
         yield word, tag
 
 
-posabbr = load_posabbr()
-# for i in posabbr:
-    # print(i)
-# print(posabbr)
-
-if __name__ == '__main__':
-    for line in fileinput.input():
-    # for line in io.open(sys.stdin.fileno(), 'rt'):
-        line = line.strip()
-        # <P>, </P>, </HEADLINE>, <DATELINE>, ...
-        if line.startswith('<') and line.endswith('>'):
-            continue
+def compute_ngram_count(lines):
+    for line in lines:
 
         tokens = list(to_tokens(line))
         # print('token')
@@ -112,3 +74,22 @@ if __name__ == '__main__':
                 if ngram_is_valid(ngram):
                     # print(' '.join(ngram), ' '.join(tags))
                     print(' '.join(ngram), ' '.join(tags))
+
+
+def get_text_(iterable):
+    for line in iterable:
+        line = line.strip()
+        # <P>, </P>, </HEADLINE>, <DATELINE>, ...
+        if line.startswith('<') and line.endswith('>'):
+            continue
+        yield line
+
+
+def main():
+    for line in extract_text(fileinput.input()):
+
+
+posabbr = load_posabbr()
+
+if __name__ == '__main__':
+    main()
