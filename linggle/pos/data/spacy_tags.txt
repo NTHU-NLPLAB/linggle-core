@@ -1,0 +1,57 @@
+.	PUNCT	punct
+,	PUNCT	punct
+-LRB-	PUNCT	punct
+-RRB-	PUNCT	punct
+``	PUNCT	punct
+""	PUNCT	punct
+''	PUNCT	punct
+:	PUNCT	punct
+$	PUNCT	punct
+#	PUNCT	punct
+AFX		
+CC	CONJ	conj
+CD	NUMBER	num
+DT	DET	det
+EX	THERE	there
+FW	FW	fw
+HYPH	PUNCT	punct
+IN	PREP	prep
+JJ	ADJ	adj
+JJR	ADJ	adj
+JJS	ADJ	adj
+LS	PUNCT	punct
+MD	AUX	aux
+NIL		
+NN	NOUN	n
+NNP	NOUN	n
+NNPS	NOUN	n
+NNS	NOUN	n
+PDT	PREDET	predet
+POS	POSS	poss
+PRP	PRON	pron
+PRP$	POSS	poss
+RB	ADV	adv
+RBR	ADV	adv
+RBS	ADV	adv
+RP	ADV	adv
+SP		
+SYM	PUNCT	punct
+TO	TO	to
+UH	INTJ	intj
+VB	VERB	v
+VBD	VERB	v
+VBG	V-ING	v,-ing
+VBN	VPP	v,pp
+VBP	VERB	v
+VBZ	VERB	v
+WDT	WH	wh
+WP	WH	wh
+WP$	WH	wh
+WRB	WH	wh
+ADD		
+NFP	PUNCT	punct
+GW		
+XX		
+BES	BE	be
+HVS	HAVE	have
+_SP		
