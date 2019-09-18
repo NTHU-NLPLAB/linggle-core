@@ -1,5 +1,7 @@
 from math import ceil, log10
 from operator import itemgetter
+import bottleneck as bn
+import numpy as np
 
 
 def to_old_linggle_format(result):
@@ -17,3 +19,16 @@ def to_old_linggle_format(result):
         })
 
     return old_format_result
+
+
+def nlargest(a, n, sort=True):
+    m = len(a)
+    n = min(m, n)
+    nlargest_list = bn.partition(a, m-n)[-n:]
+    if sort:
+        nlargest_list[::-1].sort()
+    return nlargest_list
+
+
+# def nlargest(a, n):
+#     pd.Series(test).nlargest(5).tolist()
