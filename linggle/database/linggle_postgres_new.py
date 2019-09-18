@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import os
-
+import logging
 import psycopg2
 
-from .linggle import DbLinggle
+from .linggle import BaseLinggle
 
 LINGGLE_TABLE = os.environ.get('LINGGLE_TABLE', 'LINGGLE')
-QUERY_CMD = "SELECT results FROM {} WHERE query IN %s;".format(LINGGLE_TABLE)
+QUERY_CMD = "SELECT ngrams FROM {} WHERE query = %s;".format(LINGGLE_TABLE)
 
 settings = {
     'dbname': os.environ.get('PGDATABASE', 'linggle'),
@@ -18,7 +18,7 @@ settings = {
 }
 
 
-class PostgresLinggle(DbLinggle):
+class PostgresLinggle(BaseLinggle):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.conn = psycopg2.connect(**settings)
@@ -27,10 +27,9 @@ class PostgresLinggle(DbLinggle):
         if hasattr(self, 'conn') and not self.conn.closed:
             self.conn.close()
 
-    def _db_query(self, cmds):
-        print(cmds)
+    def query(self, cmd):
         with self.conn.cursor() as cursor:
-            cursor.execute(QUERY_CMD, [cmds])
-            for row in cursor:
-                for ngram, count in row[0]:
-                    yield ngram, count
+            cursor.execute(QUERY_CMD, [cmd])
+            for result, *_ in cursor:
+                for ngram, count, npos_list in result.get('ngrams'):
+                    yield ngram, count, npos_list

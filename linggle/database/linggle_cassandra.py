@@ -5,8 +5,7 @@ import os
 from cassandra.auth import PlainTextAuthProvider
 from cassandra.cluster import Cluster
 
-from .linggle import Linggle
-from .linggle_command import convert_to_nopos_query, satisfy_pos_condition
+from .linggle import NoPosDbLinggle
 
 LINGGLE_TABLE = os.environ.get('LINGGLE_TABLE', 'LINGGLE')
 QUERY_CMD = "SELECT ngram, count FROM {} WHERE query=%s;".format(LINGGLE_TABLE)
@@ -20,7 +19,7 @@ cluster = os.environ.get('cluster', 'localhost').split(',')
 keyspace = os.environ.get('keyspace', 'linggle')
 
 
-class CassandraLinggle(Linggle):
+class CassandraLinggle(NoPosDbLinggle):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         auth_provider = PlainTextAuthProvider(**auth_settings)
@@ -31,9 +30,9 @@ class CassandraLinggle(Linggle):
         if not self.cluster.is_shutdown:
             self.cluster.shutdown()
 
-    def query(self, cmds):
-        for cmd in cmds:
-            cmd, condition = convert_to_nopos_query(cmd)
-            for row in self.session.execute(QUERY_CMD, [cmd], timeout=60.0):
-                if satisfy_pos_condition(row.ngram, condition):
-                    yield row.ngram, row.count
+    def _db_query(self, cmd):
+        # TODO: try except
+        for row in self.session.execute(QUERY_CMD, [cmd], timeout=60.0):
+            # force int type to prevent serialization error
+            # (ex., Decimal in Cassandra)
+            yield row.ngram, int(row.count)
