@@ -9,7 +9,6 @@ import io
 
 
 nlp = None
-SPACY_MODEL = os.environ.get('SPACY_MODEL', 'en')
 
 
 def ngram_is_valid(ngram):
@@ -26,7 +25,8 @@ def to_ngrams(doc, n):
 def sentence_to_ngrams(doc):
     for n in range(1, 6):
         for ngram in to_ngrams(doc, n):
-            yield ngram
+            if ngram_is_valid(ngram):
+                yield ngram
 
 
 def normalize_sent(sent):
@@ -49,7 +49,7 @@ def map_ngrams(iterable):
         invalid_bound = {i for chunk in doc.noun_chunks
                          for i in range(chunk.start+1, chunk.end)}
 
-        for ngram in filter(ngram_is_valid, sentence_to_ngrams(doc)):
+        for ngram in sentence_to_ngrams(doc):
             ngram_str = ngram.text.strip()
             npos_str = ' '.join(token.tag_ for token in ngram)
             nchunk_str = ''
@@ -85,7 +85,6 @@ def do_map():
 
 
 def do_reduce():
-    # equivalent to `uniq -c`
     iterable = io.open(sys.stdin.fileno(), 'rt')
     ngrams = map(parse_reduce_input, iterable)
     for ngram, npos, nchunk, count in reduce_ngrams(ngrams):
@@ -95,6 +94,7 @@ def do_reduce():
         # for (npos, nchunk), count in info.most_common():
         #     print(ngram, npos, nchunk, count, sep='\t')
         # info.clear()
+    # uniq -c
 
 
 if __name__ == '__main__':
@@ -102,7 +102,7 @@ if __name__ == '__main__':
 
     if mode == 'map':
         # load spacy model
-        nlp = spacy.load(SPACY_MODEL)
+        nlp = spacy.load(os.environ.get('SPACY_MODEL', 'en'))
         do_map()
     elif mode == 'reduce':
         do_reduce()
