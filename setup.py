@@ -8,7 +8,7 @@ def readme():
 
 setup(
     name='linggle',
-    version='0.2',
+    version='0.0.3',
     description='Linggle data processing, db, and simple web service script.',
     long_description=readme(),
     classifiers=[
@@ -24,9 +24,8 @@ setup(
     # license='MIT',
     packages=['linggle'],
     install_requires=[],
-    extras_require=[
-        'psycopg2',
-        'flask',
-        'cassandra-driver'
-    ],
+    extras_require={
+        'db': ['psycopg2-binary', 'cassandra-driver'],
+        'web': ['flask'],
+    },
     zip_safe=False)
