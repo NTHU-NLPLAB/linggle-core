@@ -3,7 +3,7 @@
 from flask import Flask, jsonify, request
 from operator import itemgetter
 
-from linggle.database import CassandraLinggle as Linggle
+from linggle.database import Web1tLinggle as Linggle
 
 app = Flask(__name__)
 miniLinggle = None
