@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 
 MODULE_PATH = os.path.dirname(os.path.abspath(__file__))
@@ -10,8 +11,11 @@ def parse_sim(line):
     return word, sims.split(',')
 
 
-sim_dict = dict(parse_sim(line) for line in open(SIM_FILE_PATH))
-
-
 def find_synonyms(word):
     return sim_dict.get(word, [])
+
+
+if Path.is_file(SIM_FILE_PATH):
+    sim_dict = dict(parse_sim(line) for line in open(SIM_FILE_PATH))
+else:
+    sim_dict = {}
