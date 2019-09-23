@@ -5,7 +5,7 @@ import os
 from cassandra.auth import PlainTextAuthProvider
 from cassandra.cluster import Cluster
 
-from .linggle import NoPosDbLinggle
+from .linggle import DbLinggle
 
 LINGGLE_TABLE = os.environ.get('LINGGLE_TABLE', 'LINGGLE')
 QUERY_CMD = "SELECT ngram, count FROM {} WHERE query=%s;".format(LINGGLE_TABLE)
@@ -19,7 +19,7 @@ cluster = os.environ.get('cluster', 'localhost').split(',')
 keyspace = os.environ.get('keyspace', 'linggle')
 
 
-class CassandraLinggle(NoPosDbLinggle):
+class CassandraLinggle(DbLinggle):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         auth_provider = PlainTextAuthProvider(**auth_settings)
