@@ -1,35 +1,37 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from __future__ import print_function, unicode_literals
 from itertools import product
-from operator import itemgetter
-import fileinput
-import sys
-import io
+import re
+
+
+ITEM_RE = re.compile(r'\(([^()]+)\)?')
+
+
+def to_indice(token):
+    yield ' _ '
+    end = 0
+    for match in ITEM_RE.finditer(token):
+        if end < match.start():
+            yield token[end:match.start()]
+        yield match.group(1)
+        end = match.end()
+    if end < len(token):
+        yield token[end:]
+
+
+def to_linggle_query(ngram, delim=' '):
+    candidates = [list(to_indice(token)) for token in ngram.split()]
+    for tokens in product(*candidates):
+        if any(token != ' _ ' for token in tokens):
+            yield delim.join(' '.join(tokens).split())
 
 
 if __name__ == '__main__':
-    for line in fileinput.input():
+    # import sys
+    # import io
     # for line in io.open(sys.stdin.fileno(), 'rt'):
-        try:
-            wordtags, count = line.rstrip().split('\t')
-            # print(count)
-
-            # count = int(count)
-            # if count < 3:
-                # continue
-
-            items = wordtags.split()
-            split_index = len(items) // 2
-            words, tags = items[:split_index], items[split_index:]
-            ngramstr = ' '.join(words)
-
-            candidates = [[word, ' {0}. '.format(tag), ' _ '] for word, tag in zip(words, tags)]
-            for tokens in product(*candidates):
-                if any(token != ' _ ' and not token.endswith('. ') for token in tokens):
-                    query = ' '.join(' '.join(tokens).strip().split())
-                    print('{0}\t{1}\t{2}'.format(query, count, ngramstr))
-                    # print('{0}\t{1}\t{2}'.format(query, count, ''.join(words)).encode('utf-8'))
-        except:
-            import sys
-            print(line.rstrip(), file=sys.stderr)
+    import fileinput
+    for line in fileinput.input():
+        ngram, count = line.rstrip().split('\t')
+        for query in to_linggle_query(ngram):
+            print(query, count, ngram, sep='\t')
