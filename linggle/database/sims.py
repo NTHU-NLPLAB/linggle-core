@@ -15,7 +15,7 @@ def find_synonyms(word):
     return sim_dict.get(word, [])
 
 
-if Path.is_file(SIM_FILE_PATH):
+if Path(SIM_FILE_PATH).is_file():
     sim_dict = dict(parse_sim(line) for line in open(SIM_FILE_PATH))
 else:
     sim_dict = {}
