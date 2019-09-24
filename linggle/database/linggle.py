@@ -43,10 +43,10 @@ class DbLinggle(BaseLinggle):
         """clean connection object"""
         return []
 
-    @abc.abstractmethod
     def close(self):
         """clean connection object"""
-        pass
+        if hasattr(self, 'conn') and not self.conn.closed:
+            self.conn.close()
 
     def __del__(self):
         self.close()

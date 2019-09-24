@@ -23,10 +23,6 @@ class PostgresLinggle(DbLinggle):
         super().__init__(*args, **kwargs)
         self.conn = psycopg2.connect(**settings)
 
-    def close(self):
-        if hasattr(self, 'conn') and not self.conn.closed:
-            self.conn.close()
-
     def _db_query(self, cmds):
         print(cmds)
         with self.conn.cursor() as cursor:

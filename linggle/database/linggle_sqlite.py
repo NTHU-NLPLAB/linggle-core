@@ -9,21 +9,23 @@ try:
 except ImportError:
     import json
 
-
 from .linggle import DbLinggle
+
 
 LINGGLE_TABLE = os.environ.get('LINGGLE_TABLE', 'LINGGLE')
 QUERY_CMD = "SELECT results FROM {} WHERE query IN %s;".format(LINGGLE_TABLE)
 
+SQLITE_DB_PATH = os.environ.get("SQLITE_DB_PATH", ":memory:")
+
 
 class SqliteLinggle(DbLinggle):
-    def __init__(self, *args, db_file=":memory:", **kwargs):
+    def __init__(self, *args, db_file=SQLITE_DB_PATH, **kwargs):
         super().__init__(*args, **kwargs)
         # use sqlalchemy connection pool to enable better performance for multithreading
         self.conn = create_engine('sqlite:///'+db_file, poolclass=QueuePool)
 
     def close(self):
-        if hasattr(self, 'conn') and not self.conn.closed:
+        if hasattr(self, 'conn'):
             del self.conn
 
     def _db_query(self, cmds):
