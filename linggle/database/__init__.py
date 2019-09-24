@@ -1,9 +1,10 @@
 from .linggle import BaseLinggle, DbLinggle, NoPosDbLinggle
 from .linggle_cassandra import CassandraLinggle
 from .linggle_postgres import PostgresLinggle
+from .linggle_sqlite import SqliteLinggle
 
 
-__all__ = ['BaseLinggle', 'DbLinggle', 'NoPosDbLinggle', 'CassandraLinggle', 'PostgresLinggle']
+__all__ = ['BaseLinggle', 'DbLinggle', 'NoPosDbLinggle', 'CassandraLinggle', 'PostgresLinggle', 'SqliteLinggle']
 
 
 class EnLinggle(BaseLinggle):
