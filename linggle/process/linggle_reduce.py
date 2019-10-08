@@ -6,17 +6,17 @@ from operator import itemgetter
 
 
 def parse_line(line):
-    query, count, ngram = line.strip().split('\t')
-    return query, int(count), ngram
+    query, ngram, count = line.strip().split('\t')
+    return query, ngram, int(count)
 
 
-def linggle_reduce(iterable):
+def linggle_reduce(iterable, topn=50):
     # group values with the same query
     for query, results in groupby(iterable, key=itemgetter(0)):
         counter = Counter()
-        for _, count, ngram in results:
+        for _, ngram, count in results:
             counter[ngram] += count
-        yield query, counter.most_common(50)
+        yield query, counter.most_common(topn)
 
 
 if __name__ == '__main__':
