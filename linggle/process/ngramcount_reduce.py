@@ -8,13 +8,14 @@ def uniq_count(items):
         yield item, sum(1 for _ in entries)
 
 
-def main(iterable):
+def ngramcount_reduce(iterable, prune_threshold=2):
     ngrams = map(str.strip, iterable)
     for item, count in uniq_count(ngrams):
-        if count > 1:
-            print(item, count, sep='\t')
+        if count > prune_threshold:
+            yield item, count
 
 
 if __name__ == '__main__':
     import fileinput
-    main(fileinput.input())
+    for items in ngramcount_reduce(fileinput.input()):
+        print(*items, sep='\t')

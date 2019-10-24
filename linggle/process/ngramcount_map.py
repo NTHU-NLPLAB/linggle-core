@@ -7,8 +7,15 @@ ch_symbols = set('｛｝「」『』【】（）〔〕，。：；＋！？﹖�
 black_list = numbers | eng_symbols | ch_symbols
 
 
+def text_till(text, sep='('):
+    i = text.find(sep, 1)
+    if i >= 0:
+        return text[:i]
+    return text
+
+
 def ngram_is_valid(ngram):
-    return all(token not in black_list for token in ngram)
+    return all(text_till(token) not in black_list for token in ngram)
 
 
 def gen_ngrams(items, max_len=5):
@@ -17,13 +24,14 @@ def gen_ngrams(items, max_len=5):
             yield ngram
 
 
-def main(iterable):
-    for line in map(str.strip, iterable):
+def ngramcount_map(lines):
+    for line in map(str.strip, lines):
         ngrams = gen_ngrams(line.split())
         for ngram in filter(ngram_is_valid, ngrams):
-            print(*ngram)
+            yield ngram
 
 
 if __name__ == '__main__':
     import fileinput
-    main(fileinput.input())
+    for ngram in ngramcount_map(fileinput.input()):
+        print(*ngram)

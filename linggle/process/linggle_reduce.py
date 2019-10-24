@@ -10,7 +10,7 @@ def parse_line(line):
     return query, ngram, int(count)
 
 
-def linggle_reduce(iterable, topn=50):
+def linggle_reduce(iterable, topn=None):
     # group values with the same query
     for query, results in groupby(iterable, key=itemgetter(0)):
         counter = Counter()
