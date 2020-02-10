@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import os
+from itertools import chain
 from sqlalchemy import create_engine
 from sqlalchemy.pool import QueuePool
 
@@ -28,8 +29,11 @@ class SqliteLinggle(DbLinggle):
         if hasattr(self, 'conn'):
             del self.conn
 
-    def _db_query(self, cmds):
+    async def _query_many(self, cmds):
         cmdstr = '(' + ', '.join(map(repr, cmds)) + ')'
-        for row in self.conn.execute(QUERY_CMD % cmdstr):
+        return chain(*(json.loads(row[0]) for row in self.conn.execute(QUERY_CMD % cmdstr)))
+
+    def _db_query(self, cmd):
+        for row in self.conn.execute(QUERY_CMD % f"({cmd})"):
             for ngram, count in json.loads(row[0]):
                 yield ngram, count

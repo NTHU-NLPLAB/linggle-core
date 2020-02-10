@@ -1,27 +1,25 @@
-from .linggle import BaseLinggle, DbLinggle, NoPosDbLinggle
+from .linggle import BaseLinggle, DbLinggle, NoPosLinggle
 from .linggle_cassandra import CassandraLinggle
 from .linggle_postgres import PostgresLinggle
-from .linggle_sqlite import SqliteLinggle
+# from .linggle_sqlite import SqliteLinggle
 
 
-__all__ = ['BaseLinggle', 'DbLinggle', 'NoPosDbLinggle', 'CassandraLinggle', 'PostgresLinggle', 'SqliteLinggle']
+__all__ = ['BaseLinggle', 'DbLinggle', 'NoPosLinggle', 'CassandraLinggle', 'PostgresLinggle', 'SqliteLinggle']
 
 
 class EnLinggle(BaseLinggle):
     """English Version of Linggle"""
     def __init__(self, *args, **kwargs):
-        self.word_delimiter = ' '
-        super().__init__(*args, **kwargs)
+        super().__init__(*args, word_delimiter=' ', **kwargs)
 
 
 class ZhLinggle(BaseLinggle):
     """Chinese Version of Linggle"""
     def __init__(self, *args, **kwargs):
-        self.word_delimiter = ''
-        super().__init__(*args, **kwargs)
+        super().__init__(*args, word_delimiter='', **kwargs)
 
 
-class Web1tLinggle(EnLinggle, CassandraLinggle, NoPosDbLinggle):
+class Web1tLinggle(EnLinggle, NoPosLinggle, CassandraLinggle):
     """For web1t, the language is english, PoS is not included and we use cassandra as our dbms"""
 
 

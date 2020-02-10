@@ -5,15 +5,18 @@ import logging
 from heapq import nlargest
 from operator import itemgetter
 
-from .sims import find_synonyms
-from .linggle_command import convert_to_nopos_query, satisfy_pos_condition, expand_query
+from .linggle_command import LinggleCommand
+from ..pos import has_pos
+
+import asyncio
+from itertools import chain
 
 
-class BaseLinggle:
+class BaseLinggle(LinggleCommand):
     __metaclass__ = abc.ABCMeta
 
     def __init__(self, *args, **kwargs):
-        pass
+        super().__init__(*args, **kwargs)
 
     def __getitem__(self, cmd):
         return self.query(cmd)
@@ -21,27 +24,22 @@ class BaseLinggle:
     def query(self, cmd, topn=50):
         # print('Linggle query:', cmd)
         # TODO: use more efficient nlargest function (bottleneck, pandas, ...)
-        return nlargest(topn, self._query(cmd), key=itemgetter(-1))
+        cmds = self.expand_query(cmd)
+        results = asyncio.run(self._query_many(cmds))
+        return nlargest(topn, results, key=itemgetter(-1))
 
-    @abc.abstractmethod
-    def _query(self, cmd):
+    async def _query_many(self, cmds):
+        """accept queries and return list of ngrams with counts"""
+        return chain(*await asyncio.gather(*(self._query(cmd) for cmd in cmds)))
+
+    async def _query(self, cmd):
         """return list of ngrams with counts"""
+        return []
 
 
 class DbLinggle(BaseLinggle):
-    def __init__(self, *args, find_synonyms=find_synonyms,
-                 word_delimiter=' ', **kwargs):
-        self.find_synonyms = find_synonyms
-        self.word_delimiter = word_delimiter
-
-    def _query(self, cmd):
-        cmds = expand_query(cmd, self.find_synonyms, self.word_delimiter)
-        return self._db_query(cmds)
-
-    @abc.abstractmethod
-    def _db_query(self, cmds):
-        """clean connection object"""
-        return []
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
     def close(self):
         """clean connection object"""
@@ -57,13 +55,35 @@ class DbLinggle(BaseLinggle):
     def __exit__(self, exc_type, exc_value, traceback):
         self.close()
 
+    async def _query(self, cmd):
+        return self._db_query(cmd)
 
-class NoPosDbLinggle(DbLinggle):
-    def _query(self, cmd):
-        cmds = expand_query(cmd, self.find_synonyms, self.word_delimiter)
-        for cmd in cmds:
-            # TODO: handle same ngram with different pos
-            cmd, condition = convert_to_nopos_query(cmd)
-            for ngram, count in self._db_query(cmd):
-                if satisfy_pos_condition(ngram, condition):
-                    yield ngram, count
+    @abc.abstractmethod
+    def _db_query(self, cmd):
+        """query db and return list of ngrams with counts"""
+
+
+class NoPosLinggle(BaseLinggle):
+    async def _query(self, cmd):
+        nopos_cmd, conditions = NoPosLinggle.to_nopos_cmd(cmd)
+        logging.info(f"Convert to No-PoS Cmd: {cmd} -> {nopos_cmd}:{conditions}")
+        if conditions:
+            return [(ngram, count) for ngram, count in await super()._query(nopos_cmd)
+                    if NoPosLinggle.satisfy_conditions(ngram, conditions)]
+        else:
+            return await super()._query(nopos_cmd)
+
+    @staticmethod
+    def to_nopos_cmd(cmd):
+        tokens = cmd.split()
+        conditions = [(i, token[:-1]) for i, token in enumerate(tokens) if token[-1] == '.']
+        for i, _ in conditions:
+            tokens[i] = '_'
+        return ' '.join(tokens), conditions
+
+    @staticmethod
+    def satisfy_conditions(ngram, conditions):
+        ngram = ngram.split()
+        # TODO: remove those ngram with special space symbols so that we don't need this if-statement
+        if conditions[-1][0] < len(ngram):
+            return all(ngram[i] in condition or has_pos(ngram[i], condition) for i, condition in conditions)

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import os
+import logging
 
 from cassandra.auth import PlainTextAuthProvider
 from cassandra.cluster import Cluster
@@ -31,8 +32,8 @@ class CassandraLinggle(DbLinggle):
             self.cluster.shutdown()
 
     def _db_query(self, cmd):
-        # TODO: try except
-        for row in self.session.execute(QUERY_CMD, [cmd], timeout=60.0):
-            # force int type to prevent serialization error
-            # (ex., Decimal in Cassandra)
+        logging.info(f"Cassandra query: {cmd}")
+        # TODO: log if timeout
+        for row in self.session.execute(QUERY_CMD, [cmd], timeout=10.0):
+            # force int type to prevent serialization error (ex., Decimal in Cassandra)
             yield row.ngram, int(row.count)

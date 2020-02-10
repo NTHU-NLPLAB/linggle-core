@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import os
+from itertools import chain
 
 import psycopg2
 
@@ -23,10 +24,14 @@ class PostgresLinggle(DbLinggle):
         super().__init__(*args, **kwargs)
         self.conn = psycopg2.connect(**settings)
 
-    def _db_query(self, cmds):
-        print(cmds)
+    async def _query_many(self, cmds):
         with self.conn.cursor() as cursor:
             cursor.execute(QUERY_CMD, [cmds])
+            return chain(*(row[0] for row in cursor))
+
+    def _db_query(self, cmd):
+        with self.conn.cursor() as cursor:
+            cursor.execute(QUERY_CMD, [(cmd,)])
             for row in cursor:
                 for ngram, count in row[0]:
                     yield ngram, count
