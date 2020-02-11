@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import os
 
-from .abbr import POS_WILDCARD
+from .pos_wildcard import POS_WILDCARDS
 
 # Build paths inside the project like: os.path.join(BASE_DIR, ...)
 MODULE_PATH = os.path.dirname(os.path.abspath(__file__))
@@ -11,7 +11,7 @@ PREP_FILE_PATH = os.path.join(MODULE_PATH, 'data', 'prepositions.txt')
 
 
 def init_postable():
-    postable = {abbr: set() for abbr in POS_WILDCARD.values()}
+    postable = {abbr: set() for abbr in POS_WILDCARDS.values()}
     for line in open(POS_FILE_PATH):
         word, *poss = line.strip().split()
         for pos in poss:
