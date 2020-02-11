@@ -6,7 +6,7 @@ from heapq import nlargest
 from operator import itemgetter
 
 from .linggle_command import LinggleCommand
-from ..pos import has_pos
+from ..pos.bnc import has_pos
 
 import asyncio
 from itertools import chain
@@ -23,12 +23,15 @@ class BaseLinggle(LinggleCommand):
 
     def query(self, cmd, topn=50):
         # print('Linggle query:', cmd)
-        # TODO: use more efficient nlargest function (bottleneck, pandas, ...)
         cmds = self.expand_query(cmd)
-        results = asyncio.run(self._query_many(cmds))
-        return nlargest(topn, results, key=itemgetter(-1))
+        # TODO: use more efficient nlargest function (bottleneck, pandas, ...)
+        return nlargest(topn, self._query_many(cmds), key=itemgetter(-1))
 
-    async def _query_many(self, cmds):
+    def _query_many(self, cmds):
+        """accept queries and return list of ngrams with counts"""
+        return asyncio.run(self._query_many_async(cmds))
+
+    async def _query_many_async(self, cmds):
         """accept queries and return list of ngrams with counts"""
         return chain(*await asyncio.gather(*(self._query(cmd) for cmd in cmds)))
 
@@ -76,7 +79,7 @@ class NoPosLinggle(BaseLinggle):
     @staticmethod
     def to_nopos_cmd(cmd):
         tokens = cmd.split()
-        conditions = [(i, token[:-1]) for i, token in enumerate(tokens) if token[-1] == '.']
+        conditions = [(i, token) for i, token in enumerate(tokens) if token[-1] == '.']
         for i, _ in conditions:
             tokens[i] = '_'
         return ' '.join(tokens), conditions
