@@ -1,3 +1,3 @@
-from .pos_table import *  # noqa
-from .spacy_pos import *  # noqa
-from .abbr import POS_WILDCARD  # noqa
+from .pos_wildcard import POS_WILDCARDS, normalize_wildcard
+
+__all__ = ['POS_WILDCARDS', 'normalize_wildcard']
