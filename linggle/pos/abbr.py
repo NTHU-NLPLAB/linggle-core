@@ -11,6 +11,7 @@ def init_abbr_dict():
     abbr_dict = {}
     for line in open(POSABBR_TABLE_PATH):
         abbr, *poss = line.strip().split('\t')
+        abbr_dict[abbr] = abbr
         for pos in poss:
             abbr_dict[pos] = abbr
     return abbr_dict
