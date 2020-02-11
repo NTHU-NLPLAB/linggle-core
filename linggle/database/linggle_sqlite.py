@@ -29,7 +29,7 @@ class SqliteLinggle(DbLinggle):
         if hasattr(self, 'conn'):
             del self.conn
 
-    async def _query_many(self, cmds):
+    def _query_many(self, cmds):
         cmdstr = '(' + ', '.join(map(repr, cmds)) + ')'
         return chain(*(json.loads(row[0]) for row in self.conn.execute(QUERY_CMD % cmdstr)))
 

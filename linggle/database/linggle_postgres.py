@@ -24,7 +24,7 @@ class PostgresLinggle(DbLinggle):
         super().__init__(*args, **kwargs)
         self.conn = psycopg2.connect(**settings)
 
-    async def _query_many(self, cmds):
+    def _query_many(self, cmds):
         with self.conn.cursor() as cursor:
             cursor.execute(QUERY_CMD, [cmds])
             return chain(*(row[0] for row in cursor))
