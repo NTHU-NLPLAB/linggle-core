@@ -5,6 +5,7 @@ import logging
 
 from cassandra.auth import PlainTextAuthProvider
 from cassandra.cluster import Cluster
+from cassandra.policies import DCAwareRoundRobinPolicy
 
 from .linggle import DbLinggle
 
@@ -24,7 +25,11 @@ class CassandraLinggle(DbLinggle):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         auth_provider = PlainTextAuthProvider(**auth_settings)
-        self.cluster = Cluster(cluster, auth_provider=auth_provider)
+        self.cluster = Cluster(
+            cluster,
+            auth_provider=auth_provider,
+            load_balancing_policy=DCAwareRoundRobinPolicy(local_dc='datacenter1'),
+            protocol_version=4)
         self.session = self.cluster.connect(keyspace)
 
     def close(self):
