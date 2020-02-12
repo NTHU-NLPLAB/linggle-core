@@ -21,4 +21,8 @@ def normalize_wildcard(wildcard):
     return POS_WILDCARDS.get(wildcard, wildcard)
 
 
+def is_wildcard(token):
+    return token.lower() in POS_WILDCARDS
+
+
 POS_WILDCARDS = init_wildcard_dict()
