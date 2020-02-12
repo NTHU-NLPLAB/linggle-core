@@ -33,5 +33,6 @@ class CassandraLinggle(DbLinggle):
     def _db_query(self, cmd):
         logging.info(f"Cassandra query: {cmd}")
         # TODO: log if timeout
+        # TODO: try cassandra.concurrent.execute_concurrent_with_args
         # force int type to prevent serialization error (ex., Decimal in Cassandra)
         return ((ngram, int(count)) for ngram, count in self.session.execute(self.prepared, (cmd,)))

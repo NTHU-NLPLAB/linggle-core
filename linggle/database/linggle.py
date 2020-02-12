@@ -4,9 +4,11 @@ import abc
 import logging
 from heapq import nlargest
 from operator import itemgetter
+from functools import partial
 
 from .linggle_command import LinggleCommand
-from ..pos.bnc import has_pos
+from linggle.pos.bnc import has_pos
+from linggle.pos import is_wildcard
 
 import asyncio
 from itertools import chain
@@ -71,22 +73,22 @@ class NoPosLinggle(BaseLinggle):
         nopos_cmd, conditions = NoPosLinggle.to_nopos_cmd(cmd)
         logging.info(f"Convert to No-PoS Cmd: {cmd} -> {nopos_cmd}:{conditions}")
         if conditions:
-            return [(ngram, count) for ngram, count in await super()._query(nopos_cmd)
-                    if NoPosLinggle.satisfy_conditions(ngram, conditions)]
+            fileter_func = partial(NoPosLinggle.satisfy_conditions, conditions=conditions)
+            return filter(fileter_func, await super()._query(nopos_cmd))
         else:
             return await super()._query(nopos_cmd)
 
     @staticmethod
     def to_nopos_cmd(cmd):
         tokens = cmd.split()
-        conditions = [(i, token) for i, token in enumerate(tokens) if token[-1] == '.']
+        conditions = tuple((i, token) for i, token in enumerate(tokens) if is_wildcard(token))
         for i, _ in conditions:
             tokens[i] = '_'
         return ' '.join(tokens), conditions
 
     @staticmethod
-    def satisfy_conditions(ngram, conditions):
-        ngram = ngram.split()
+    def satisfy_conditions(row, conditions=()):
+        ngram = row[0].split()
         # TODO: remove those ngram with special space symbols so that we don't need this if-statement
         if conditions[-1][0] < len(ngram):
             return all(ngram[i] in condition or has_pos(ngram[i], condition) for i, condition in conditions)
