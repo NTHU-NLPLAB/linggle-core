@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 import os
 
-from .pos_wildcard import POS_WILDCARDS
 
 # Build paths inside the project like: os.path.join(BASE_DIR, ...)
 MODULE_PATH = os.path.dirname(os.path.abspath(__file__))
@@ -11,11 +10,11 @@ PREP_FILE_PATH = os.path.join(MODULE_PATH, 'data', 'prepositions.txt')
 
 
 def init_postable():
-    postable = {abbr: set() for abbr in POS_WILDCARDS.values()}
+    postable = {}
     for line in open(POS_FILE_PATH):
         word, *poss = line.strip().split()
         for pos in poss:
-            postable[f"{pos}."].add(word)
+            postable.setdefault(f"{pos}.", set()).add(word)
     postable['p.'] = set(open(PREP_FILE_PATH).read().split())
     return postable
 
