@@ -11,7 +11,7 @@ from .linggle_database import linggle_it
 class LinggleQuery(BaseModel):
     query: str
     time: int = None
-    result: list = None
+    ngrams: list = None
     total: int = 0
 
 
@@ -26,6 +26,7 @@ def get_ngram(cmd: str, time: int = None):
 @app.post("/ngram/", response_class=UJSONResponse)
 def get_ngram_post(res: LinggleQuery):
     res.query = res.query.strip()
-    res.result = linggle_it(res.query) if res.query else []
-    res.total = sum(map(itemgetter(-1), res.result))
+    res.ngrams = linggle_it(res.query) if res.query else []
+    # TODO: leave the total counting in the client side
+    res.total = sum(map(itemgetter(-1), res.ngrams))
     return res
