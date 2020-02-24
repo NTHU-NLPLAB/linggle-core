@@ -3,7 +3,6 @@ import os
 
 # Build paths inside the project like: os.path.join(BASE_DIR, ...)
 MODULE_PATH = os.path.dirname(os.path.abspath(__file__))
-# TODO: pron: Nh
 POSABBR_TABLE_PATH = os.path.join(MODULE_PATH, 'data', 'wildcards.txt')
 
 

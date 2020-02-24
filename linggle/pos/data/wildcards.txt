@@ -1,9 +1,17 @@
 a.	adj.
-r.	rb.	adv.
+r.	rb. adv.
 n.	noun.
 v.	verb.
 d.	det.
 p.	prep.
-pron.
+nh. pron.
 c.	conj.
 i.	interj.
+loc.
+fw.
+cl. nf.
+nv.
+post.
+cpost.
+asp.
+sfp.
