@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import os
+import logging
 from itertools import chain
 
 import psycopg2
@@ -25,11 +26,13 @@ class PostgresLinggle(DbLinggle):
         self.conn = psycopg2.connect(**settings)
 
     def _query_many(self, cmds):
+        logging.info(f"PostgreSQL queries: {cmds}")
         with self.conn.cursor() as cursor:
             cursor.execute(QUERY_CMD, [cmds])
             return chain(*(row[0] for row in cursor))
 
     def _db_query(self, cmd):
+        logging.info(f"PostgreSQL query: {cmd}")
         with self.conn.cursor() as cursor:
             cursor.execute(QUERY_CMD, [(cmd,)])
             for row in cursor:
