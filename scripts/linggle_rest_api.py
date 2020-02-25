@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from operator import itemgetter
 from starlette.responses import UJSONResponse
 from fastapi import FastAPI
 from pydantic import BaseModel
@@ -12,7 +11,6 @@ class LinggleQuery(BaseModel):
     query: str
     time: int = None
     ngrams: list = None
-    total: int = 0
 
 
 app = FastAPI()
@@ -27,6 +25,4 @@ def get_ngram(cmd: str, time: int = None):
 def get_ngram_post(res: LinggleQuery):
     res.query = res.query.strip()
     res.ngrams = linggle_it(res.query) if res.query else []
-    # TODO: leave the total counting in the client side
-    res.total = sum(map(itemgetter(-1), res.ngrams))
     return res
