@@ -16,7 +16,7 @@ class LinggleQuery(BaseModel):
 app = FastAPI()
 
 
-@app.get("/ngram/{cmd}", response_class=UJSONResponse)
+@app.get("/ngram/{cmd:path}", response_class=UJSONResponse)
 def get_ngram(cmd: str, time: int = None):
     return get_ngram_post(LinggleQuery(query=cmd, time=time))
 
