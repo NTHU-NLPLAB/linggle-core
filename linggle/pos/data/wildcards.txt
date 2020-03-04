@@ -4,7 +4,7 @@ n.	noun.
 v.	verb.
 d.	det.
 p.	prep.
-nh. pron.
+nh.	pron.
 c.	conj.
 i.	interj.
 loc.
