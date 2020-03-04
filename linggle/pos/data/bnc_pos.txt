@@ -1230,7 +1230,7 @@ agronomists n
 agronomy n p
 aground r
 ague n p v
-ah i pron
+ah i nh
 aha i p
 ahead r
 ahem i
@@ -2350,12 +2350,12 @@ anxiously r
 anxiousness n
 any d r
 anybodies n
-anybody pron
+anybody nh
 anyhow r
 anymore r
-anyone pron
+anyone nh
 anyplace r
-anything pron
+anything nh
 anytime n
 anyway r
 anyways p
@@ -3495,7 +3495,7 @@ auditory a n p
 audits n v
 auger n v
 augers n
-aught pron
+aught nh
 augment v
 augmentation n
 augmentations n
@@ -18965,7 +18965,7 @@ elver n
 elvers n
 elves n
 elvish a
-em n p pron v
+em n p nh v
 emaciate v
 emaciated a p v
 emaciating n
@@ -20319,10 +20319,10 @@ everlasting a n
 everlastingly r
 evermore r
 every d
-everybody pron
+everybody nh
 everyday a
-everyone pron
-everything pron
+everyone nh
+everything nh
 everywhere r
 eves n p
 evict v
@@ -26780,7 +26780,7 @@ haziness n
 hazing a n v
 hazmat v
 hazy a
-he p pron
+he p nh
 head a n p v
 headache n
 headaches n p
@@ -27103,7 +27103,7 @@ helpmates n
 helps n v
 helve n
 helves p
-hem n pron v
+hem n nh v
 hematite a n
 heme p
 hemisphere n
@@ -27143,7 +27143,7 @@ hepatocytes n p
 hepper p
 heptagon n
 heptathlon n
-her d pron
+her d nh
 herald n p v
 heralded v
 heraldic a p
@@ -27227,8 +27227,8 @@ herpetology n
 herring n p
 herringbone n
 herrings n
-hers pron
-herself pron
+hers nh
+herself nh
 hertz n
 hesitance n
 hesitancy n
@@ -27393,8 +27393,8 @@ hilltops n
 hilly a
 hilt n
 hilts n
-him pron
-himself pron
+him nh
+himself nh
 hind a n p
 hinder v
 hindered a v
@@ -27444,7 +27444,7 @@ hires n v
 hiring n v
 hirsute n v
 hirsuteness n
-his d pron
+his d nh
 hiss n p v
 hissed v
 hisses n v
@@ -28504,7 +28504,7 @@ hysteric a n
 hysterical a
 hysterically r
 hysterics n p
-i p pron
+i p nh
 iamb n p
 iambic a
 iambus n
@@ -31297,7 +31297,7 @@ issues n p v
 issuing a n v
 isthmian a
 isthmus n
-it p pron
+it p nh
 ital a p
 italic a n
 italicization n
@@ -31332,7 +31332,7 @@ itinerants p
 itineraries n
 itinerary n
 its d p
-itself pron
+itself nh
 iv a n p
 ivied a
 ivies n
@@ -34021,7 +34021,7 @@ lost a v
 lot n p
 lotion n v
 lotions n
-lots p pron
+lots p nh
 lotteries n
 lottery n
 lotto n p
@@ -35319,7 +35319,7 @@ maze n p
 mazes n
 mazurka n p
 mazurkas n p
-me d p pron
+me d p nh
 mead n p
 meadow n p
 meadowlark n p
@@ -36174,7 +36174,7 @@ mindlessness n
 minds n
 mindset n
 mindsets n
-mine n p pron
+mine n p nh
 mined a v
 minefield n
 minefields n
@@ -37699,7 +37699,7 @@ myrmidons n
 myrrh n
 myrtle n p v
 myrtles n v
-myself pron
+myself nh
 mysteries n
 mysterious a
 mysteriously r
@@ -37900,7 +37900,7 @@ natures n
 naturism n
 naturist a n
 naturists n
-naught pron
+naught nh
 naughtier a
 naughtiest a
 naughtily r
@@ -38354,7 +38354,7 @@ nihilism n
 nihilist a n
 nihilistic a
 nihilists n
-nil p pron
+nil p nh
 nimble a v
 nimbleness n
 nimbler a
@@ -38431,7 +38431,7 @@ nobles n p
 noblest a
 noblewoman n
 nobly r
-nobody pron
+nobody nh
 nobs n v
 nocturnal a n p
 nocturne n p
@@ -38517,7 +38517,7 @@ nondestructive a
 nondisclosure n
 nondiscriminatory a
 nondrinker n
-none pron
+none nh
 nonempty a
 nonentities n
 nonentity n
@@ -38705,7 +38705,7 @@ notepaper n v
 notes n v
 noteworthiness n
 noteworthy a
-nothing pron
+nothing nh
 nothingness n
 nothings n
 notice n p v
@@ -38767,7 +38767,7 @@ now r
 nowadays r
 nowhere r
 nowise a r
-nowt pron
+nowt nh
 noxious a
 nozzle n
 nozzles n
@@ -39421,11 +39421,11 @@ oncologist n
 oncologists n
 oncology n
 oncoming a
-one n pron
+one n nh
 oneness n
 onerous a
 onerousness n
-oneself pron
+oneself nh
 onetime a
 ongoing a
 onion n p
@@ -39843,8 +39843,8 @@ ouch i n
 ounce n
 ounces n
 our d
-ours pron
-ourselves pron
+ours nh
+ourselves nh
 oust v
 ousted a v
 ouster n p
@@ -43211,7 +43211,7 @@ plenitude n p
 plenteous a
 plentiful a
 plentifully r
-plenty n p r pron
+plenty n p r nh
 plenum n p
 pleonasm n
 plethora n
@@ -52418,7 +52418,7 @@ shavings n
 shawl n v
 shawls n
 shay n p v
-she p pron
+she p nh
 sheaf n p
 shear n v
 sheared a v
@@ -54506,17 +54506,17 @@ sombrero n p
 sombreros n
 some d
 somebodies n
-somebody pron
+somebody nh
 someday n r
 somehow r
-someone pron
+someone nh
 someplace r
 somersault n v
 somersaulted a v
 somersaulting a n v
 somersaults n v
 somerset p
-something pron
+something nh
 sometime a r
 sometimes r
 someway n
@@ -57187,7 +57187,7 @@ summarized v
 summarizes v
 summarizing a n v
 summary n
-summat pron
+summat nh
 summation n
 summations n
 summed v
@@ -58052,7 +58052,7 @@ systems n p
 systole n
 systoles n
 systolic a
-t p pron
+t p nh
 ta d i p
 tab n v
 tabbed a v
@@ -59058,23 +59058,23 @@ theatrical a
 theatricality n
 theatrically r
 theatrics n
-thee pron
+thee nh
 thees p
 theft n
 thefts n
 their d
-theirs pron
+theirs nh
 theism n
 theist n
 theistic a
 theists n
-them pron
+them nh
 thematic a
 thematically r
 theme n
 themed a v
 themes n
-themselves pron
+themselves nh
 then r
 thence r
 thenceforth r
@@ -59166,7 +59166,7 @@ thespians n
 theta n
 thetas n
 thew n p v
-they pron
+they nh
 thiamine n
 thick a r
 thicken v
@@ -59200,7 +59200,7 @@ thimble n
 thimbleful n
 thimbles n
 thin a v
-thine d n pron
+thine d n nh
 thing n p
 thingamabob v
 thingamajig n v
@@ -59270,7 +59270,7 @@ thoroughgoing a
 thoroughly r
 thoroughness n
 those d
-thou pron
+thou nh
 though c r
 thought n v
 thoughtful a
@@ -59455,7 +59455,7 @@ thyme n
 thymine n p v
 thymus n p
 thyroid a n
-thyself pron
+thyself nh
 ti a n p
 tiara n p
 tiaras n
@@ -63269,7 +63269,7 @@ urologists n
 urology n
 ursine n
 urticaria n p
-us p pron
+us p nh
 usability n
 usable a
 usage n
@@ -64791,7 +64791,7 @@ waysides n
 wayward a p
 waywardly r
 waywardness n
-we pron
+we nh
 weak a
 weaken v
 weakened a v
@@ -65042,7 +65042,7 @@ whaler n p
 whalers n p
 whales n
 whaling n
-wham i p pron v
+wham i p nh v
 whammies n
 whamming a
 whammy a n p
@@ -65272,11 +65272,11 @@ whizkid n p
 whizzbang n
 whizzed v
 whizzing a n v
-who p pron
+who p nh
 whoa i p
 whodunit n v
 whodunits n
-whoever pron
+whoever nh
 whole a n
 wholefood n
 wholefoods n
@@ -65295,9 +65295,9 @@ wholesomely r
 wholesomeness n
 wholewheat n v
 wholly r
-whom pron
-whomever pron
-whomsoever pron
+whom nh
+whomever nh
+whomsoever nh
 whoop a i n
 whooped v
 whoopee i n
@@ -65326,7 +65326,7 @@ whorled a
 whorls n
 whose d
 whoso n
-whosoever pron
+whosoever nh
 whup n v
 whupped p v
 why r
@@ -66143,7 +66143,7 @@ xylene n
 xylophone n p v
 xylophones n
 y p
-ya i pron
+ya i nh
 yacht n
 yachting n
 yachts n
@@ -66198,7 +66198,7 @@ yawning a v
 yawns n v
 yaws n v
 yd n
-ye pron
+ye nh
 yea i n
 yeah i p
 year n
@@ -66241,7 +66241,7 @@ yeoman n p
 yeomanry n
 yeomen n p
 yep i p
-yer d pron
+yer d nh
 yes i
 yeshiva n p
 yesterday r
@@ -66290,7 +66290,7 @@ yon d r
 yonder d r
 yonks n
 yore n p v
-you pron
+you nh
 young a p
 younger a p
 youngest a
@@ -66298,10 +66298,10 @@ youngish a n
 youngster n
 youngsters n
 your d
-yours pron
-yourself pron
-yourselves pron
-yous pron
+yours nh
+yourself nh
+yourselves nh
+yous nh
 youth n p
 youthful a
 youthfully r
