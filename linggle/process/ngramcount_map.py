@@ -7,13 +7,13 @@ ch_symbols = set('｛｝「」『』【】（）〔〕，。：；＋！？﹖�
 black_list = numbers | eng_symbols | ch_symbols
 
 
-def text_till(text, sep='('):
-    i = text.find(sep, 1)
+def text_till(text, sep='(', start=0):
+    i = text.find(sep, start)
     return text if i < 0 else text[:i]
 
 
 def ngram_is_valid(ngram):
-    return all(text_till(token).strip() not in black_list for token in ngram)
+    return all(text_till(token, start=1).strip() not in black_list for token in ngram)
 
 
 def gen_ngrams(items, max_len=5):
