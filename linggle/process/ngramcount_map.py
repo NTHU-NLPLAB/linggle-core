@@ -15,7 +15,7 @@ def text_till(text, sep='('):
 
 
 def ngram_is_valid(ngram):
-    return all(text_till(token) not in black_list for token in ngram)
+    return all(text_till(token).strip() not in black_list for token in ngram)
 
 
 def gen_ngrams(items, max_len=5):
@@ -24,10 +24,10 @@ def gen_ngrams(items, max_len=5):
             yield ngram
 
 
-def ngramcount_map(lines):
+def ngramcount_map(lines, delimiter=None):
     for line in map(str.strip, lines):
-        ngrams = gen_ngrams(line.split())
-        for ngram in filter(ngram_is_valid, ngrams):
+        tokens = line.split(delimiter) if delimiter else line.split()
+        for ngram in filter(ngram_is_valid, gen_ngrams(tokens)):
             yield ngram
 
 
