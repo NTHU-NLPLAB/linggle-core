@@ -9,9 +9,7 @@ black_list = numbers | eng_symbols | ch_symbols
 
 def text_till(text, sep='('):
     i = text.find(sep, 1)
-    if i >= 0:
-        return text[:i]
-    return text
+    return text if i < 0 else text[:i]
 
 
 def ngram_is_valid(ngram):
