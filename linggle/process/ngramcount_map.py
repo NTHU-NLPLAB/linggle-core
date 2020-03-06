@@ -27,7 +27,10 @@ def gen_ngrams(items, max_len=5):
 def ngramcount_map(lines, delimiter=None):
     for line in map(str.strip, lines):
         tokens = line.split(delimiter) if delimiter else line.split()
-        for ngram in filter(ngram_is_valid, gen_ngrams(tokens)):
+        ngrams = gen_ngrams(tokens)
+        # comment the following line if you don't want filtering
+        ngrams = filter(ngram_is_valid, ngrams)
+        for ngram in ngrams:
             yield ngram
 
 
