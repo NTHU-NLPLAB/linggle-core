@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import unicodedata
 
 numbers = set('0123456789０１２３４５６７８９')
 eng_symbols = set('{}"\'()[].,:;+!?-*/&|<>=~$%\n\t ')
@@ -23,7 +24,12 @@ def gen_ngrams(items, max_len=5):
             yield ngram
 
 
+def line_is_valid(line):
+    return all(unicodedata.category(ch)[0] != "C" for ch in line.strip())
+
+
 def ngramcount_map(lines):
+    lines = map(line_is_valid, lines)
     for tokens in map(str.split, lines):
         ngrams = gen_ngrams(tokens)
         # comment the following line if you don't want filtering
