@@ -5,11 +5,12 @@ numbers = set('0123456789０１２３４５６７８９')
 eng_symbols = set('{}"\'()[].,:;+!?-*/&|<>=~$%\n\t ')
 ch_symbols = set('｛｝「」『』【】（）〔〕，。：；＋！？﹖——＊７｜＜＞《》〈〉＝～＄％、')
 black_list = numbers | eng_symbols | ch_symbols
+black_list.add('')
 
 
 def text_till(text, sep='(', start=0):
     i = text.find(sep, start)
-    return text if i < 0 else text[:i]
+    return '' if i < 0 else text[:i]
 
 
 def ngram_is_valid(ngram):
