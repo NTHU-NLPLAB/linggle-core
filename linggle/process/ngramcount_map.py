@@ -29,7 +29,7 @@ def line_is_valid(line):
 
 
 def ngramcount_map(lines):
-    lines = map(line_is_valid, lines)
+    lines = list(filter(line_is_valid, lines))
     for tokens in map(str.split, lines):
         ngrams = gen_ngrams(tokens)
         # comment the following line if you don't want filtering
