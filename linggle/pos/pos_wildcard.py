@@ -20,7 +20,7 @@ def normalize_wildcard(wildcard):
     return POS_WILDCARDS.get(wildcard, wildcard)
 
 
-def is_wildcard(token):
+def is_pos_wildcard(token):
     return token.lower() in POS_WILDCARDS
 
 
