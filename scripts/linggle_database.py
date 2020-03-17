@@ -21,13 +21,13 @@ def linggle_it(query):
             return linggle[query]
         except Exception as e:
             logging.error(str(e))
-            init_linggle(find_synonyms=find_similar_words)
+            init_linggle()
     return []
 
 
 def init_linggle():
     global linggle
-    linggle = Linggle()
+    linggle = Linggle(find_synonyms=find_similar_words)
 
 
-init_linggle(find_synonyms=find_similar_words)
+init_linggle()
