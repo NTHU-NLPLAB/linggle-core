@@ -1,6 +1,8 @@
 import os
 import logging
 
+from .sims import find_similar_words
+
 
 _backend = os.getenv('LINGGLE_BACKEND', 'web1t')
 if _backend == 'web1t':
@@ -19,7 +21,7 @@ def linggle_it(query):
             return linggle[query]
         except Exception as e:
             logging.error(str(e))
-            init_linggle()
+            init_linggle(find_synonyms=find_similar_words)
     return []
 
 
@@ -28,4 +30,4 @@ def init_linggle():
     linggle = Linggle()
 
 
-init_linggle()
+init_linggle(find_synonyms=find_similar_words)
