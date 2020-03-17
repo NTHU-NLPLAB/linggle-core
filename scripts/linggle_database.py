@@ -1,7 +1,7 @@
 import os
 import logging
 
-from .sims import find_similar_words
+from linggle.database.sims import find_similar_words
 
 
 _backend = os.getenv('LINGGLE_BACKEND', 'web1t')
