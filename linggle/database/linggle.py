@@ -8,7 +8,7 @@ from functools import partial
 
 from .linggle_command import LinggleCommand
 from linggle.pos.bnc import has_pos
-from linggle.pos import is_wildcard
+from linggle.pos import is_pos_wildcard
 
 import asyncio
 from itertools import chain
@@ -81,7 +81,7 @@ class NoPosLinggle(BaseLinggle):
     @staticmethod
     def to_nopos_cmd(cmd):
         tokens = cmd.split()
-        conditions = tuple((i, token) for i, token in enumerate(tokens) if is_wildcard(token))
+        conditions = tuple((i, token) for i, token in enumerate(tokens) if is_pos_wildcard(token))
         for i, _ in conditions:
             tokens[i] = '_'
         return ' '.join(tokens), conditions
