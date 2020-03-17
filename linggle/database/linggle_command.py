@@ -3,7 +3,7 @@
 from itertools import product, permutations
 import re
 
-from ..pos import normalize_wildcard
+from ..pos import normalize_wildcard, is_pos_wildcard
 
 
 # TODO: parse for nested reorder query
@@ -31,9 +31,9 @@ class LinggleCommand:
                 for synonym in self.find_synonyms(token):
                     yield synonym
 
-            if token == '_':
-                yield ' _ '
-            elif token.endswith('.'):
+            if token in '_' or '$' in token:
+                yield f" {token} "
+            elif is_pos_wildcard(token):
                 yield f' {normalize_wildcard(token)} '
             elif token:
                 # restore multiword unit: look_forward_to
