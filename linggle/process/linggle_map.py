@@ -28,9 +28,9 @@ def to_linggle_query(ngram, delim=' '):
     candidates = [list(to_indice(token)) for token in ngram.split()]
     for tokens in product(*candidates):
         # skip queries consisting of wildcards only
-        if not all(is_wildcard(token) for token in tokens):
-            # remove redundant spaces
-            yield ' '.join(delim.join(tokens).split())
+        # if not all(is_wildcard(token) for token in tokens):
+        # remove redundant spaces
+        yield ' '.join(delim.join(tokens).split())
 
 
 def linggle_map(iterable):
