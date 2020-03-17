@@ -1,12 +1,12 @@
-a.	adj.
-r.	rb. adv.
-n.	noun.
-v.	verb.
-d.	det.
-p.	prep.
-nh.	pron.
-c.	conj.
-i.	interj.
+a. adj.
+r. rb. adv.
+n. noun.
+v. verb.
+d. det.
+p. prep.
+nh. pron.
+c. conj.
+i. interj.
 loc.
 fw.
 cl. nf.

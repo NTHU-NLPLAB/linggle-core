@@ -9,7 +9,7 @@ POSABBR_TABLE_PATH = os.path.join(MODULE_PATH, 'data', 'wildcards.txt')
 def init_wildcard_dict():
     wildcard_dict = {}
     for line in open(POSABBR_TABLE_PATH):
-        wildcards = line.strip().split('\t')
+        wildcards = line.split()
         for wildcard in wildcards:
             wildcard_dict[wildcard] = wildcards[0]
     return wildcard_dict
