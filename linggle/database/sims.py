@@ -3,7 +3,7 @@ from pathlib import Path
 
 
 MODULE_PATH = os.path.dirname(os.path.abspath(__file__))
-SIM_FILE_PATH = os.environ.get('SYMNONYM_FILE_PATH') or os.path.join(MODULE_PATH, 'sims.tsv')
+SIM_FILE_PATH = os.environ.get('SIM_FILE_PATH') or os.path.join(MODULE_PATH, 'sims.tsv')
 
 
 def parse_sim(line):
@@ -11,11 +11,11 @@ def parse_sim(line):
     return word, sims.split(',')
 
 
-def find_synonyms(word):
-    return sim_dict.get(word, [])
+def find_similar_words(word, default=()):
+    return sim_dict.get(word, default)
 
 
 if Path(SIM_FILE_PATH).is_file():
-    sim_dict = dict(parse_sim(line) for line in open(SIM_FILE_PATH))
+    sim_dict = dict(map(parse_sim, open(SIM_FILE_PATH)))
 else:
     sim_dict = {}
