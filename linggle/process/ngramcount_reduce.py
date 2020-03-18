@@ -9,7 +9,8 @@ def uniq_count(items):
 
 
 def ngramcount_reduce(ngrams, min_count=2):
-    return filter(lambda item: item[1] >= min_count, uniq_count(ngrams))
+    ngramcounts = uniq_count(ngrams)
+    return filter(lambda item: item[1] >= min_count, ngramcounts)
 
 
 if __name__ == '__main__':
