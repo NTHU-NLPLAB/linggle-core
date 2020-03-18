@@ -7,6 +7,8 @@ from operator import itemgetter
 from functools import partial
 
 from .linggle_command import LinggleCommand
+from .lead_tail import convert_lt_cmd, fit_lt_condition
+
 from linggle.pos.bnc import has_pos
 from linggle.pos import is_pos_wildcard
 
@@ -24,18 +26,36 @@ class BaseLinggle(LinggleCommand):
         return self.query(cmd)
 
     def query(self, cmd, topn=50):
-        # print('Linggle query:', cmd)
+        logging.info(f"Linggle query: {cmd}")
         cmds = self.expand_query(cmd)
+
+        lt_cmds = [cmd for cmd in cmds if '$' in cmd]
+        if lt_cmds:
+            nolt_cmds = [cmd for cmd in cmds if '$' not in cmd]
+            ngrams = chain(self._query_many(nolt_cmds), self.__query_many(lt_cmds, query_func=self._lt_query))
+        else:
+            ngrams = self._query_many(cmds)
+
         # TODO: use more efficient nlargest function (bottleneck, pandas, ...)
-        return nlargest(topn, self._query_many(cmds), key=itemgetter(-1))
+        return nlargest(topn, ngrams, key=itemgetter(-1))
 
-    def _query_many(self, cmds):
-        """accept queries and return list of ngrams with counts"""
-        return asyncio.run(self._query_many_async(cmds))
+    def _query_many(self, *args, **kwargs):
+        return self.__query_many(*args, **kwargs)
 
-    async def _query_many_async(self, cmds):
+    def __query_many(self, cmds, **kwargs):
         """accept queries and return list of ngrams with counts"""
-        return chain(*await asyncio.gather(*(self._query(cmd) for cmd in cmds)))
+        return asyncio.run(self._query_many_async(cmds, **kwargs))
+
+    async def _query_many_async(self, cmds, query_func=None):
+        query_func = query_func if query_func else self._query
+        """accept queries and return list of ngrams with counts"""
+        return chain(*await asyncio.gather(*(query_func(cmd) for cmd in cmds)))
+
+    async def _lt_query(self, cmd):
+        cmd, re_conditions = convert_lt_cmd(cmd)
+        logging.info(f"Lead-tail query: {cmd} {str(re_conditions)}")
+        return [(ngram, count) for ngram, count in await self._query(cmd)
+                if not re_conditions or fit_lt_condition(re_conditions, ngram)]
 
     async def _query(self, cmd):
         """return list of ngrams with counts"""
