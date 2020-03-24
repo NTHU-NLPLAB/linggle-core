@@ -1,0 +1,49 @@
+a.	ADJ	A	A
+c.	C	Caa	Caa
+post.	POST	Cab	Cab
+cpost.	CPOST	Cba	Cbab
+c.	C	Cbb	Cbaa	Cbba	Cbbb	Cbca	Cbcb
+r.	ADV	Da	Daa
+r.	ADV	Dfa	Dfa
+r.	ADV	Dfb	Dfb
+asp.	ASP	Di	Di
+r.	ADV	Dk	Dk
+r.	ADV	D	Dab	Dbaa	Dbab	Dbb	Dbc	Dc	Dd	Dg	Dh	Dj
+n.	N	Na	Naa	Nab	Nac	Nad	Naea	Naeb
+n.	N	Nb	Nba	Nbc
+n.	N	Nc	Nca	Ncb	Ncc	Nce
+loc.	Loc	Ncd	Ncda	Ncdb
+n.	Nd	Ndaa	Ndab	Ndc	Ndd
+d.	DET	Neu	Neu
+d.	DET	Nes	Nes
+d.	DET	Nep	Nep
+d.	DET	Neqa	Neqa
+post.	POST	Neqb	Neqb
+cl.	CL	Nf	Nfa	Nfb	Nfc	Nfd	Nfe	Nfg	Nfh	Nfi
+post.	POST	Ng	Ng
+nh.	Nh	Nhaa	Nhab	Nhac	Nhb	Nhc
+nv.	Nv	Nv	Nv1	Nv2	Nv3	Nv4
+i.	I	I	I
+p.	P	P	P*
+sfp.	SFP	T	Ta	Tb	Tc	Td
+v.	V   V_11
+v.	Vi	VA	VA11	VA12	VA13	VA3	VA4
+v.	Vt
+v.	Vi
+v.	VAC	VA2
+v.	VB	VB11	VB12	VB2
+v.	VC	VC2	VC31	VC32	VC33
+v.	VCL	VC1
+v.	VD	VD1	VD2
+v.	VE	VE11	VE12	VE2
+v.	VF	VF1	VF2
+v.	VG	VG1	VG2
+v.	VH	VH11	VH12	VH13	VH14	VH15	VH17	VH21
+v.	VHC	VH16	VH22
+v.	VI	VI1	VI2	VI3
+v.	VJ	VJ1	VJ2	VJ3
+v.	VK	VK1	VK2
+v.	VL	VL1	VL2	VL3	VL4
+v.	V_2	V_2
+v.	Vt	SHI
+de.	DE
