@@ -24,21 +24,23 @@ def to_indice(token):
         yield token[end:]
 
 
-def to_linggle_query(ngram, delim=' '):
-    candidates = [list(to_indice(token)) for token in ngram.split()]
-    for tokens in product(*candidates):
+def to_linggle_query(tokens, delim=' '):
+    candidates = [list(to_indice(token)) for token in tokens]
+    for query_tokens in product(*candidates):
         # skip queries consisting of wildcards only
-        # if not all(is_wildcard(token) for token in tokens):
+        # if not all(is_wildcard(token) for token in query_tokens):
         # remove redundant spaces
-        yield ' '.join(delim.join(tokens).split())
+        yield ' '.join(delim.join(query_tokens).split())
 
 
 def linggle_map(iterable):
     for line in iterable:
         ngram, count = line.strip().split('\t')
-        for query in to_linggle_query(ngram):
-            if query != ngram:
-                yield query, ngram, count
+        tokens = ngram.split()
+        ngram_text = ' '.join(token.split('(', 1)[0] if token.find('(', 1) else token for token in tokens)
+        for query in to_linggle_query(tokens):
+            if query != ngram_text:
+                yield query, ngram_text, count
 
 
 if __name__ == '__main__':
