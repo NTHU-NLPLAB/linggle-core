@@ -20,4 +20,4 @@ if __name__ == '__main__':
         print(*items, sep='\t')
 
 # similar to:
-# uniq -c
+# LC_ALL=C uniq -c | LC_ALL=C awk '{ if ($1 > 2) print $0 }'
