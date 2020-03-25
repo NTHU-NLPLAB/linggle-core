@@ -35,15 +35,13 @@ def to_linggle_query(ngram, delim=' '):
 
 def linggle_map(iterable):
     for line in iterable:
-        ngram, count = line.rstrip().split('\t')
+        ngram, count = line.strip().split('\t')
         for query in to_linggle_query(ngram):
-            yield query, ngram, count
+            if query != ngram:
+                yield query, ngram, count
 
 
 if __name__ == '__main__':
-    # import sys
-    # import io
-    # for line in io.open(sys.stdin.fileno(), 'rt'):
     import fileinput
     for items in linggle_map(fileinput.input()):
         print(*items, sep='\t')
