@@ -21,3 +21,5 @@ if __name__ == '__main__':
 
 # similar to:
 # LC_ALL=C uniq -c | LC_ALL=C awk '{ if ($1 > 2) print $0 }'
+# use awk to produce to the same format
+# LC_ALL=C uniq -c | LC_ALL=C awk '{c=$1; $1=""; if (c > 2) print $0 "\t" c }'
