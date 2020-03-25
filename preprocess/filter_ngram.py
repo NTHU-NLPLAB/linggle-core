@@ -11,7 +11,7 @@ black_list = numbers | eng_symbols | ch_symbols
 
 
 def ngram_is_valid(ngram):
-    return all(ITEM_RE.findall(token) for token in ngram)
+    return all(ITEM_RE.findall(token) for token in ngram.split())
 
 
 if __name__ == "__main__":
