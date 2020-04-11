@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from starlette.responses import UJSONResponse
-from fastapi import FastAPI, Header
+from starlette.responses import Response
+from fastapi import FastAPI, Header, status
 
 import firebase_admin
 from firebase_admin.auth import verify_id_token
@@ -27,9 +28,17 @@ firebase_admin.initialize_app()
 conn = psycopg2.connect(**settings)
 
 
-@app.get("/log/{action}/{query:path}", response_class=UJSONResponse)
+@app.get("/log/{action}/{query:path}", status_code=status.HTTP_201_CREATED, response_class=Response)
 def log_access(action: str, query: str, time: int = None, usertokenid: str = Header(None)):
-    uid = verify_id_token(usertokenid)['uid'] if usertokenid else None
+    if usertokenid:
+        try:
+            uid = verify_id_token(usertokenid)['uid']
+        except Exception as e:
+            # TODO: do something here
+            print(str(e))
+            uid = None
+    else:
+        uid = None
     return add_log(action, query, uid, time)
 
 
