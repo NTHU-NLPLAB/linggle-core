@@ -31,7 +31,7 @@ class LinggleCommand:
                 for synonym in self.find_synonyms(token):
                     yield synonym
 
-            if token in '_' or '$' in token:
+            if token in '_' or '$' in token or '*' in token:
                 yield f" {token} "
             elif is_pos_wildcard(token):
                 yield f' {normalize_wildcard(token)} '
