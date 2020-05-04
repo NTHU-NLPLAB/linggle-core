@@ -31,7 +31,7 @@ class LinggleCommand:
                 for synonym in self.find_synonyms(token):
                     yield synonym
 
-            if token in '_' or '$' in token or '*' in token:
+            if token in '_' or '*' in token:
                 yield f" {token} "
             elif is_pos_wildcard(token):
                 yield f' {normalize_wildcard(token)} '
@@ -48,6 +48,7 @@ class LinggleCommand:
                 yield tuple(cmd for tokens in permutations(items)
                             for cmd in self.expand_query(' '.join(tokens)))
             else:
+                item = LinggleCommand.normalize_query_token(item)
                 yield tuple(self.item_to_candidate(item))
 
     def candidates_to_cmds(self, candidates, return_str=True):
@@ -68,5 +69,9 @@ class LinggleCommand:
         return linggle_cmds
 
     @staticmethod
+    def normalize_query_token(token):
+        return token.replace('$', '*')
+
+    @staticmethod
     def normalize_query(query):
-        return query.strip().replace('@', '/')
+        return query.strip().replace('@', '/').replace('...', '*')
