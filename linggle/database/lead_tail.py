@@ -3,9 +3,9 @@ import re
 
 def convert_lt_cmd(cmd):
     tokens = cmd.split()
-    re_conditions = [(i, re.compile(token.replace('*', '.*').replace('$', '.*')))
-                     for i, token in enumerate(tokens) if '$' in token]
-    cmd = ' '.join('_' if '$' in token else token for token in tokens)
+    re_conditions = [(i, re.compile(token.replace('*', '.*')))
+                     for i, token in enumerate(tokens) if '*' in token]
+    cmd = ' '.join('_' if '*' in token else token for token in tokens)
     return cmd, re_conditions
 
 

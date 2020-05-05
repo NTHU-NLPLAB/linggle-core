@@ -29,14 +29,15 @@ class BaseLinggle(LinggleCommand):
         logging.info(f"Linggle query: {cmd}")
         cmds = self.expand_query(cmd)
 
-        lt_cmds = [cmd for cmd in cmds if '$' in cmd]
+        lt_cmds = [cmd for cmd in cmds if '*' in cmd]
         if lt_cmds:
-            nolt_cmds = [cmd for cmd in cmds if '$' not in cmd]
+            nolt_cmds = [cmd for cmd in cmds if '*' not in cmd]
             ngrams = chain(self._query_many(nolt_cmds), self.__query_many(lt_cmds, query_func=self._lt_query))
         else:
             ngrams = self._query_many(cmds)
 
         # TODO: use more efficient nlargest function (bottleneck, pandas, ...)
+        # TODO: remove repetitive ngrams
         return nlargest(topn, ngrams, key=itemgetter(-1))
 
     def _query_many(self, *args, **kwargs):
