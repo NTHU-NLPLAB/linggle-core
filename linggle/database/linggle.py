@@ -7,7 +7,7 @@ from operator import itemgetter
 from functools import partial
 
 from .linggle_command import LinggleCommand
-from .lead_tail import convert_lt_cmd, fit_lt_condition
+from .partial import convert_partial_cmd, fit_partial_condition
 
 from linggle.pos.bnc import has_pos
 from linggle.pos import is_pos_wildcard
@@ -53,13 +53,15 @@ class BaseLinggle(LinggleCommand):
         return chain(*await asyncio.gather(*(query_func(cmd) for cmd in cmds)))
 
     async def _lt_query(self, cmd):
-        cmd, re_conditions = convert_lt_cmd(cmd)
+        cmd, re_conditions = convert_partial_cmd(cmd)
         logging.info(f"Lead-tail query: {cmd} {str(re_conditions)}")
         return [(ngram, count) for ngram, count in await self._query(cmd)
-                if not re_conditions or fit_lt_condition(re_conditions, ngram)]
+                if not re_conditions or fit_partial_condition(re_conditions, ngram)]
 
     async def _query(self, cmd):
         """return list of ngrams with counts"""
+        # TODO: hightlight wildcards
+        # highlight = tuple(i for i, token in enumerate(cmd.split()) if token == '_')
         return []
 
 
