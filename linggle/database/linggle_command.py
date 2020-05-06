@@ -71,7 +71,7 @@ class LinggleCommand:
 
     @staticmethod
     def normalize_query_token(token):
-        return token.replace('$', '*')
+        return token.replace('%', '*').replace('$', '*')
 
     @staticmethod
     def normalize_query(query):
