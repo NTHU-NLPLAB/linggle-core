@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from itertools import product, permutations
+import unicodedata
 import re
 
 from ..pos import normalize_wildcard, is_pos_wildcard
@@ -74,4 +75,5 @@ class LinggleCommand:
 
     @staticmethod
     def normalize_query(query):
+        query = unicodedata.normalize('NFKC', query)
         return query.strip().replace('@', '/').replace('...', '*')
