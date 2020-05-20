@@ -37,7 +37,7 @@ def linggle_map(iterable):
     for line in iterable:
         ngram, count = line.strip().split('\t')
         tokens = ngram.split()
-        ngram_text = ' '.join(token.split('(', 1)[0] if token.find('(', 1) else token for token in tokens)
+        ngram_text = ' '.join(token.split('(', 1)[0] if token.rfind('(', 1) else token for token in tokens)
         for query in to_linggle_query(tokens):
             if query != ngram_text:
                 yield query, ngram_text, count
