@@ -114,4 +114,4 @@ class NoPosLinggle(BaseLinggle):
         ngram = row[0].split()
         # TODO: remove those ngram with special space symbols so that we don't need this if-statement
         if conditions[-1][0] < len(ngram):
-            return all(ngram[i] in condition or has_pos(ngram[i], condition) for i, condition in conditions)
+            return all(has_pos(ngram[i], condition) for i, condition in conditions)
