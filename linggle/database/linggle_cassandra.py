@@ -35,4 +35,13 @@ class CassandraLinggle(DbLinggle):
         # TODO: log if timeout
         # TODO: try cassandra.concurrent.execute_concurrent_with_args
         # force int type to prevent serialization error (ex., Decimal in Cassandra)
-        return ((ngram, int(count)) for ngram, count in self.session.execute(self.prepared, (cmd,)))
+            return ((ngram, count) for ngram, count in self.session.execute(self.prepared, (cmd,)))
+
+    def _ngram_query(self, n, ngram=None):
+        table = NGRAM_TABLES[n]
+        if ngram:
+            cmd = f"SELECT ngram, count FROM {table} WHERE query=? ORDER BY count ;"
+            return ((ngram, int(count)) for ngram, count in self.session.execute(cmd, (ngram,)))
+        else:
+            cmd = f"SELECT ngram, count FROM {table} ORDER BY count ;"
+            return ((ngram, int(count)) for ngram, count in self.session.execute(cmd))
