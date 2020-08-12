@@ -32,9 +32,15 @@ class CassandraLinggle(DbLinggle):
 
     def _db_query(self, cmd):
         logging.info(f"Cassandra query: {cmd}")
-        # TODO: log if timeout
-        # TODO: try cassandra.concurrent.execute_concurrent_with_args
-        # force int type to prevent serialization error (ex., Decimal in Cassandra)
+        tokens = cmd.split()
+        if all(token != '_' for token in tokens):
+            return self._ngram_query(len(tokens), ngram=cmd)
+        elif all(token == '_' for token in tokens):
+            return self._ngram_query(len(tokens))
+        else:
+            # TODO: log if timeout
+            # TODO: try cassandra.concurrent.execute_concurrent_with_args
+            # force int type to prevent serialization error (ex., Decimal in Cassandra)
             return ((ngram, count) for ngram, count in self.session.execute(self.prepared, (cmd,)))
 
     def _ngram_query(self, n, ngram=None):
