@@ -47,10 +47,10 @@ class CassandraLinggle(DbLinggle):
     def _ngram_query(self, n, ngram=None):
         table = NGRAM_TABLES[n]
         if ngram:
-            cmd = f"SELECT ngram, count FROM {table} WHERE query=? ORDER BY count ;"
+            cmd = f"SELECT ngram, count FROM {table} WHERE ngram=%s ;"
             return ((ngram, int(count)) for ngram, count in self.session.execute(cmd, (ngram,)))
         elif n == 1:
-            cmd = f"SELECT ngram, count FROM {table} ORDER BY count ;"
+            cmd = f"SELECT ngram, count FROM {table} ;"
             return ((ngram, int(count)) for ngram, count in self.session.execute(cmd))
         else:
             # TODO: extracting all ngrams with n > 1 can be very problematic because it's too BIG!
