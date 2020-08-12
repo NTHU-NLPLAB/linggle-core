@@ -10,7 +10,8 @@ from cassandra.query import tuple_factory
 from .linggle import DbLinggle
 
 LINGGLE_TABLE = os.environ.get('LINGGLE_TABLE', 'LINGGLE')
-QUERY_CMD = "SELECT ngram, count FROM {} WHERE query=?;".format(LINGGLE_TABLE)
+QUERY_CMD = "SELECT ngram, count FROM {} WHERE query=? ;".format(LINGGLE_TABLE)
+NGRAM_TABLES = (None, 'unigram', 'bigram', 'trigram', 'fourgram', 'fivegram')
 
 
 keyspace = os.environ.get('keyspace', 'linggle')
