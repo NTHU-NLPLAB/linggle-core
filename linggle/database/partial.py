@@ -9,6 +9,5 @@ def convert_partial_cmd(cmd):
     return cmd, re_conditions
 
 
-def fit_partial_condition(conditions, ngram):
-    tokens = ngram.split()
+def fit_partial_condition(conditions, tokens):
     return all(regexp.fullmatch(tokens[i]) for i, regexp in conditions)
