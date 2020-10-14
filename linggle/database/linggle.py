@@ -28,6 +28,7 @@ class BaseLinggle(LinggleCommand):
     def query(self, cmd, topn=50):
         logging.info(f"Linggle query: {cmd}")
         cmds = self.expand_query(cmd)
+        logging.info(f"Expand query: {cmds}")
 
         lt_cmds = [cmd for cmd in cmds if '*' in cmd]
         if lt_cmds:
