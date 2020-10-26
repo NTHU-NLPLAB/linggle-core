@@ -57,7 +57,7 @@ class BaseLinggle(LinggleCommand):
         cmd, re_conditions = convert_partial_cmd(cmd)
         logging.info(f"Lead-tail query: {cmd} {str(re_conditions)}")
         return [(ngram, count) for ngram, count in await self._query(cmd)
-                if not re_conditions or fit_partial_condition(re_conditions, ngram)]
+                if fit_partial_condition(re_conditions, ngram.split())]
 
     async def _query(self, cmd):
         """return list of ngrams with counts"""
