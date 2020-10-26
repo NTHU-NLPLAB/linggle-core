@@ -22,9 +22,8 @@ def get_ngram(cmd: str, time: int = None, usertokenid: str = Header(None)):
 
 @app.post("/ngram/", response_class=UJSONResponse)
 def get_ngram_post(res: LinggleQuery, usertokenid: str = Header(None)):
-    if usertokenid:
-        # TODO: check user token
-        pass
+    # TODO: check user token
+    # if usertokenid:
     res.query = res.query.strip()
     res.ngrams = linggle_it(res.query) if res.query else []
     return res
