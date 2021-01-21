@@ -31,12 +31,11 @@ class BaseLinggle(LinggleCommand):
 
     def _query_many(self, cmds, query_func=None, **kwargs):
         """accept queries and return list of ngrams with counts"""
-        query_func = query_func if query_func else self._query
-        return chain(*(query_func(cmd) for cmd in cmds))
+        return chain(*(self.__query(cmd) for cmd in cmds))
 
-    def _lt_query(self, cmd):
+    def __query(self, cmd):
         cmd, re_conditions = convert_partial_cmd(cmd)
-        logging.info(f"Lead-tail query: {cmd} {str(re_conditions)}")
+        logging.info(f"plain query: {cmd} {str(re_conditions)}")
         return [(ngram, count) for ngram, count in self._query(cmd)
                 if fit_partial_condition(re_conditions, ngram.split())]
 
