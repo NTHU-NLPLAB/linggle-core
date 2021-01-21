@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from itertools import product, permutations
 import unicodedata
+import logging
 import re
 
 from ..pos import normalize_wildcard, is_pos_wildcard
@@ -70,6 +71,7 @@ class LinggleCommand:
         # generate the basic commands of linggle based on the candidates
         # (i.e., remove ['/', '*', '~', '?', '{}'] and normalize PoS wildcards)
         linggle_cmds = tuple({cmd for cmd in self.candidates_to_cmds(candidates, return_str)})
+        logging.info(f"Expand query: {querystr} -> {linggle_cmds}")
         return linggle_cmds
 
     @staticmethod
