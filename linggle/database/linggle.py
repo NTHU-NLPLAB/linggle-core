@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 import abc
 import logging
-from heapq import nlargest
-from operator import itemgetter
+from collections import Counter
 from functools import partial
 
 from .linggle_command import LinggleCommand
@@ -38,8 +37,7 @@ class BaseLinggle(LinggleCommand):
             ngrams = self._query_many(cmds)
 
         # TODO: use more efficient nlargest function (bottleneck, pandas, ...)
-        # TODO: remove repetitive ngrams
-        return nlargest(topn, ngrams, key=itemgetter(-1))
+        return Counter(dict(ngrams)).most_common(topn)
 
     def _query_many(self, cmds, query_func=None, **kwargs):
         """accept queries and return list of ngrams with counts"""
