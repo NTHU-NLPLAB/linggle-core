@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from collections import Counter
 
 
 MODULE_PATH = os.path.dirname(os.path.abspath(__file__))
@@ -12,6 +13,6 @@ def parse_line(line):
 
 
 if Path(VOCAB_FILE_PATH).is_file():
-    VOCABULARY = dict(map(parse_line, open(VOCAB_FILE_PATH)))
+    VOCABULARY = Counter(dict(map(parse_line, open(VOCAB_FILE_PATH))))
 else:
     VOCABULARY = {}
