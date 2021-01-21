@@ -36,8 +36,11 @@ class BaseLinggle(LinggleCommand):
     def __query(self, cmd):
         cmd, re_conditions = convert_partial_cmd(cmd)
         logging.info(f"plain query: {cmd} {str(re_conditions)}")
-        return [(ngram, count) for ngram, count in self._query(cmd)
-                if fit_partial_condition(re_conditions, ngram.split())]
+        if len(cmd.split()) == 1:
+            rows = ((cmd, self.vocab.get(cmd)),) if cmd != '_' else self.vocab.most_common()
+        else:
+            rows = self._query(cmd)
+        return [(ngram, count) for ngram, count in rows if fit_partial_condition(re_conditions, ngram.split())]
 
     @abc.abstractmethod
     def _query(self, cmd):
