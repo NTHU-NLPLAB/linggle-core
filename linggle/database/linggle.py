@@ -24,18 +24,8 @@ class BaseLinggle(LinggleCommand):
         return self.query(cmd)
 
     def query(self, cmd, topn=50):
-        logging.info(f"Linggle query: {cmd}")
         cmds = self.expand_query(cmd)
-        logging.info(f"Expand query: {cmds}")
-
-        lt_cmds = [cmd for cmd in cmds if '*' in cmd]
-        # TODO: rewrite
-        if lt_cmds:
-            nolt_cmds = [cmd for cmd in cmds if '*' not in cmd]
-            ngrams = chain(self._query_many(nolt_cmds), self._query_many(lt_cmds, query_func=self._lt_query))
-        else:
-            ngrams = self._query_many(cmds)
-
+        ngrams = self._query_many(cmds)
         # TODO: use more efficient nlargest function (bottleneck, pandas, ...)
         return Counter(dict(ngrams)).most_common(topn)
 
