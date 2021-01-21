@@ -39,6 +39,7 @@ class BaseLinggle(LinggleCommand):
         return [(ngram, count) for ngram, count in self._query(cmd)
                 if fit_partial_condition(re_conditions, ngram.split())]
 
+    @abc.abstractmethod
     def _query(self, cmd):
         """return list of ngrams with counts"""
         # TODO: hightlight wildcards
