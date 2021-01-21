@@ -79,7 +79,7 @@ class DbLinggle(BaseLinggle):
 class NoPosLinggle(BaseLinggle):
     def _query(self, cmd):
         nopos_cmd, conditions = NoPosLinggle.to_nopos_cmd(cmd)
-        logging.info(f"Convert to No-PoS Cmd: {cmd} -> {nopos_cmd}:{conditions}")
+        logging.info(f"Convert to No-PoS query: {cmd} -> {nopos_cmd}:{conditions}")
         if conditions:
             fileter_func = partial(NoPosLinggle.satisfy_conditions, conditions=conditions)
             return filter(fileter_func, super()._query(nopos_cmd))
