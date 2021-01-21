@@ -5,6 +5,7 @@ import unicodedata
 import logging
 import re
 
+from .vocab import VOCABULARY
 from ..pos import normalize_wildcard, is_pos_wildcard
 
 
@@ -14,11 +15,12 @@ LONGEST_LEN = 5
 
 
 class LinggleCommand:
-    def __init__(self, *args, find_synonyms=None,
-                 word_delimiter=' ', **kwargs):
+    def __init__(self, *args, find_synonyms=None, word_delimiter=' ', vocab=VOCABULARY,
+                 **kwargs):
         if find_synonyms:
             self.find_synonyms = find_synonyms
         self.word_delimiter = word_delimiter
+        self.vocab = vocab
 
     def find_synonyms(self, word):
         return ()
