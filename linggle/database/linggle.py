@@ -12,7 +12,6 @@ from .partial import convert_partial_cmd, fit_partial_condition
 from linggle.pos.bnc import has_pos
 from linggle.pos import is_pos_wildcard
 
-import asyncio
 from itertools import chain
 
 
@@ -31,9 +30,10 @@ class BaseLinggle(LinggleCommand):
         logging.info(f"Expand query: {cmds}")
 
         lt_cmds = [cmd for cmd in cmds if '*' in cmd]
+        # TODO: rewrite
         if lt_cmds:
             nolt_cmds = [cmd for cmd in cmds if '*' not in cmd]
-            ngrams = chain(self._query_many(nolt_cmds), self.__query_many(lt_cmds, query_func=self._lt_query))
+            ngrams = chain(self._query_many(nolt_cmds), self._query_many(lt_cmds, query_func=self._lt_query))
         else:
             ngrams = self._query_many(cmds)
 
@@ -41,25 +41,18 @@ class BaseLinggle(LinggleCommand):
         # TODO: remove repetitive ngrams
         return nlargest(topn, ngrams, key=itemgetter(-1))
 
-    def _query_many(self, *args, **kwargs):
-        return self.__query_many(*args, **kwargs)
-
-    def __query_many(self, cmds, **kwargs):
+    def _query_many(self, cmds, query_func=None, **kwargs):
         """accept queries and return list of ngrams with counts"""
-        return asyncio.run(self._query_many_async(cmds, **kwargs))
-
-    async def _query_many_async(self, cmds, query_func=None):
         query_func = query_func if query_func else self._query
-        """accept queries and return list of ngrams with counts"""
-        return chain(*await asyncio.gather(*(query_func(cmd) for cmd in cmds)))
+        return chain(*(query_func(cmd) for cmd in cmds))
 
-    async def _lt_query(self, cmd):
+    def _lt_query(self, cmd):
         cmd, re_conditions = convert_partial_cmd(cmd)
         logging.info(f"Lead-tail query: {cmd} {str(re_conditions)}")
-        return [(ngram, count) for ngram, count in await self._query(cmd)
+        return [(ngram, count) for ngram, count in self._query(cmd)
                 if fit_partial_condition(re_conditions, ngram.split())]
 
-    async def _query(self, cmd):
+    def _query(self, cmd):
         """return list of ngrams with counts"""
         # TODO: hightlight wildcards
         # highlight = tuple(i for i, token in enumerate(cmd.split()) if token == '_')
@@ -84,7 +77,7 @@ class DbLinggle(BaseLinggle):
     def __exit__(self, exc_type, exc_value, traceback):
         self.close()
 
-    async def _query(self, cmd):
+    def _query(self, cmd):
         return self._db_query(cmd)
 
     @abc.abstractmethod
@@ -93,14 +86,14 @@ class DbLinggle(BaseLinggle):
 
 
 class NoPosLinggle(BaseLinggle):
-    async def _query(self, cmd):
+    def _query(self, cmd):
         nopos_cmd, conditions = NoPosLinggle.to_nopos_cmd(cmd)
         logging.info(f"Convert to No-PoS Cmd: {cmd} -> {nopos_cmd}:{conditions}")
         if conditions:
             fileter_func = partial(NoPosLinggle.satisfy_conditions, conditions=conditions)
-            return filter(fileter_func, await super()._query(nopos_cmd))
+            return filter(fileter_func, super()._query(nopos_cmd))
         else:
-            return await super()._query(nopos_cmd)
+            return super()._query(nopos_cmd)
 
     @staticmethod
     def to_nopos_cmd(cmd):
