@@ -6,7 +6,7 @@ from collections import Counter
 from functools import partial
 
 from .linggle_command import LinggleCommand
-from .partial import convert_partial_cmd, fit_partial_condition
+from .partial import convert_partial_cmd
 
 from linggle.pos.bnc import has_pos
 from linggle.pos import is_pos_wildcard
@@ -33,14 +33,15 @@ class BaseLinggle(LinggleCommand):
 
     def _query_many(self, cmds, query_func=None, **kwargs):
         """accept queries and return list of ngrams with counts"""
-        return chain(*(self.__query(cmd) for cmd in cmds))
+        return chain(*(self._query(cmd) for cmd in cmds))
 
-    def __query(self, cmd):
-        cmd, re_conditions = convert_partial_cmd(cmd)
-        logging.info(f"plain query: {cmd} {str(re_conditions)}")
+    def _query(self, cmd, conditions=()):
+        cmd, partial_conditions = convert_partial_cmd(cmd)
+        conditions += partial_conditions
+        logging.info(f"plain query: {cmd} {str(conditions)}")
         # if the token length of the query is 1, use `get_unigram` method to speed up
-        rows = self._query(cmd) if len(cmd.split()) > 1 else self.get_unigram(cmd)
-        return [(ngram, count) for ngram, count in rows if fit_partial_condition(re_conditions, ngram.split())]
+        rows = self.query(cmd) if len(cmd.split()) > 1 else self.get_unigram(cmd)
+        return [(ngram, count) for ngram, count in rows if BaseLinggle.check_condition(ngram, conditions)]
 
     @abc.abstractmethod
     def _query(self, cmd):
