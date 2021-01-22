@@ -25,7 +25,7 @@ class BaseLinggle(LinggleCommand):
     def __getitem__(self, cmd):
         return self.query(cmd)
 
-    def query(self, cmd, topn=50):
+    def __query(self, cmd, topn=50):
         cmds = self.expand_query(cmd)
         ngrams = self._query_many(cmds)
         # TODO: use more efficient nlargest function (bottleneck, pandas, ...)
