@@ -19,8 +19,10 @@ def init_postable():
     return postable
 
 
-def has_pos(word, pos):
-    return pos in POS_TABLE and word in POS_TABLE[pos]
+def get_pos_check_func(i, pos):
+    def check(tokens):
+        return tokens[i] in POS_TABLE[pos]
+    return check
 
 
 POS_TABLE = init_postable()
