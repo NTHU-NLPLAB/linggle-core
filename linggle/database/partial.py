@@ -3,11 +3,13 @@ import re
 
 def convert_partial_cmd(cmd):
     tokens = cmd.split()
-    re_conditions = [(i, re.compile(token.replace('*', '.*')))
-                     for i, token in enumerate(tokens) if '*' in token]
+    conditions = tuple(get_partial_check_func(i, token) for i, token in enumerate(tokens) if '*' in token)
     cmd = ' '.join('_' if '*' in token else token for token in tokens)
-    return cmd, re_conditions
+    return cmd, conditions
 
 
-def fit_partial_condition(conditions, tokens):
-    return all(regexp.fullmatch(tokens[i]) for i, regexp in conditions)
+def get_partial_check_func(i, token):
+    def check(tokens):
+        return regexp.fullmatch(tokens[i])
+    regexp = re.compile(token.replace('.', r'\.').replace('*', r'.*'))
+    return check
