@@ -3,7 +3,6 @@
 import abc
 import logging
 from collections import Counter
-from functools import partial
 
 from .linggle_command import LinggleCommand
 from .partial import convert_partial_cmd
@@ -20,10 +19,10 @@ class BaseLinggle(LinggleCommand):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if not self.vocab:
-            self.get_unigram = self._query
+            self.get_unigram = self.query
 
     def __getitem__(self, cmd):
-        return self.query(cmd)
+        return self.__query(cmd)
 
     def __query(self, cmd, topn=50):
         cmds = self.expand_query(cmd)
