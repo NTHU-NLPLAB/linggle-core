@@ -21,7 +21,8 @@ def init_postable():
 
 def get_pos_check_func(i, pos):
     def check(tokens):
-        return tokens[i] in POS_TABLE[pos]
+        return tokens[i] in word_set
+    word_set = POS_TABLE[pos]
     return check
 
 
