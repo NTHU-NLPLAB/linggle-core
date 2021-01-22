@@ -8,7 +8,7 @@ from functools import partial
 from .linggle_command import LinggleCommand
 from .partial import convert_partial_cmd
 
-from linggle.pos.bnc import has_pos
+from linggle.pos.bnc import get_pos_check_func
 from linggle.pos import is_pos_wildcard
 
 from itertools import chain
@@ -78,24 +78,17 @@ class DbLinggle(BaseLinggle):
 
 
 class NoPosLinggle(BaseLinggle):
-    def _query(self, cmd):
-        nopos_cmd, conditions = NoPosLinggle.to_nopos_cmd(cmd)
-        logging.info(f"Convert to No-PoS query: {cmd} -> {nopos_cmd}:{conditions}")
-        if conditions:
-            fileter_func = partial(NoPosLinggle.satisfy_conditions, conditions=conditions)
-            return filter(fileter_func, super()._query(nopos_cmd))
-        else:
-            return super()._query(nopos_cmd)
+    def _query(self, cmd, conditions=()):
+        nopos_cmd, pos_conditions = NoPosLinggle.to_nopos_cmd(cmd)
+        logging.info(f"Convert to No-PoS query: {cmd} -> {nopos_cmd}:{pos_conditions}")
+        return super()._query(nopos_cmd, conditions=pos_conditions+conditions)
 
     @staticmethod
     def to_nopos_cmd(cmd):
         tokens = cmd.split()
-        conditions = tuple((i, token) for i, token in enumerate(tokens) if is_pos_wildcard(token))
-        for i, _ in conditions:
-            tokens[i] = '_'
-        return ' '.join(tokens), conditions
-
-    @staticmethod
-    def satisfy_conditions(row, conditions=()):
-        ngram = row[0].split()
-        return all(has_pos(ngram[i], condition) for i, condition in conditions)
+        conditions = []
+        for i, token in enumerate(tokens):
+            if is_pos_wildcard(token):
+                tokens[i] = '_'
+                conditions.append(get_pos_check_func(i, token))
+        return ' '.join(tokens), tuple(conditions)
