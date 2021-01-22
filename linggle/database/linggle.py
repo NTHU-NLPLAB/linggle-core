@@ -42,6 +42,10 @@ class BaseLinggle(LinggleCommand):
         rows = self.query(cmd) if len(cmd.split()) > 1 else self.get_unigram(cmd)
         return [(ngram, count) for ngram, count in rows if BaseLinggle.check_condition(ngram, conditions)]
 
+    def check_condition(ngram, conditions):
+        tokens = ngram.split()
+        return all(condition(tokens) for condition in conditions)
+
     @abc.abstractmethod
     def query(self, cmd):
         """return list of ngrams with counts"""
