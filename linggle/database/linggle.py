@@ -44,7 +44,7 @@ class BaseLinggle(LinggleCommand):
         return [(ngram, count) for ngram, count in rows if BaseLinggle.check_condition(ngram, conditions)]
 
     @abc.abstractmethod
-    def _query(self, cmd):
+    def query(self, cmd):
         """return list of ngrams with counts"""
         # TODO: hightlight wildcards
         # highlight = tuple(i for i, token in enumerate(cmd.split()) if token == '_')
@@ -69,7 +69,7 @@ class DbLinggle(BaseLinggle):
     def __exit__(self, exc_type, exc_value, traceback):
         self.close()
 
-    def _query(self, cmd):
+    def query(self, cmd):
         return self._db_query(cmd)
 
     @abc.abstractmethod
