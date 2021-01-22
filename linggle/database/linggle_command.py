@@ -22,6 +22,9 @@ class LinggleCommand:
         self.word_delimiter = word_delimiter
         self.vocab = vocab
 
+    def get_unigram(self, query):
+        return ((query, self.vocab.get(query)),) if query != '_' else self.vocab.most_common()
+
     def find_synonyms(self, word):
         return ()
 

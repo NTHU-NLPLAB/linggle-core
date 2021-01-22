@@ -19,6 +19,8 @@ class BaseLinggle(LinggleCommand):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        if not self.vocab:
+            self.get_unigram = self._query
 
     def __getitem__(self, cmd):
         return self.query(cmd)
@@ -36,10 +38,8 @@ class BaseLinggle(LinggleCommand):
     def __query(self, cmd):
         cmd, re_conditions = convert_partial_cmd(cmd)
         logging.info(f"plain query: {cmd} {str(re_conditions)}")
-        if len(cmd.split()) == 1:
-            rows = ((cmd, self.vocab.get(cmd)),) if cmd != '_' else self.vocab.most_common()
-        else:
-            rows = self._query(cmd)
+        # if the token length of the query is 1, use `get_unigram` method to speed up
+        rows = self._query(cmd) if len(cmd.split()) > 1 else self.get_unigram(cmd)
         return [(ngram, count) for ngram, count in rows if fit_partial_condition(re_conditions, ngram.split())]
 
     @abc.abstractmethod
