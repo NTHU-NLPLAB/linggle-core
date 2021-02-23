@@ -16,12 +16,15 @@ linggle = None
 
 
 def linggle_it(query):
-    for _ in range(RETRY_TIMES):
-        try:
-            return linggle[query]
-        except Exception as e:
-            logging.error(str(e))
-            init_linggle()
+    try:
+        for _ in range(RETRY_TIMES):
+            try:
+                return linggle[query]
+            except Exception as e:
+                logging.error(str(e))
+                init_linggle()
+    except Exception as e:
+        logging.error(str(e))
     return []
 
 
