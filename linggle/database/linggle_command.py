@@ -23,7 +23,11 @@ class LinggleCommand:
         self.vocab = vocab
 
     def get_unigram(self, query):
-        return ((query, self.vocab.get(query)),) if query != '_' else self.vocab.most_common()
+        if query == '_':
+            return self.vocab.most_common()
+        elif query in self.vocab:
+            return ((query, self.vocab[query]),)
+        return ()
 
     def find_synonyms(self, word):
         return ()
