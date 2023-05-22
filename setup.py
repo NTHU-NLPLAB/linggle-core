@@ -24,7 +24,10 @@ setup(
     packages=['linggle'],
     install_requires=[],
     extras_require={
-        'db': ['psycopg2-binary', 'cassandra-driver', 'sqlalchemy'],
-        'web': ['flask'],
+        'postgres': ["psycopg2-binary"],
+        'cassandra': ["cassandra-driver"],
+        'sqlite': ["sqlalchemy"],
+        'fastapi': ["fastapi", "uvicorn[standard]"],
+        'flask': ["flask"],
     },
     zip_safe=False)
