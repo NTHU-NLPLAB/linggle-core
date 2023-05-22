@@ -8,7 +8,7 @@ def readme():
 
 setup(
     name='linggle',
-    version='0.0.5',
+    version='0.0.6',
     description='Linggle data processing, db, and simple web service script.',
     long_description=readme(),
     classifiers=[
