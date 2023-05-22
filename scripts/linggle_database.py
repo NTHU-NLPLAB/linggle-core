@@ -9,7 +9,12 @@ if _backend == 'web1t':
     from linggle.database import Web1tLinggle as Linggle
 elif _backend == 'zhpg':
     from linggle.database import ZhPgLinggle as Linggle
-
+elif _backend == 'cassandra':
+    from linggle.database import CassandraLinggle as Linggle
+elif _backend == ('pg', 'postgres'):
+    from linggle.database import PostgresLinggle as Linggle
+else:
+    from linggle.database import SqliteLinggle as Linggle
 
 RETRY_TIMES = 3
 linggle = None
