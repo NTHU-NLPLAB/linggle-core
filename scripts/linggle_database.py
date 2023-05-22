@@ -11,7 +11,7 @@ elif _backend == 'zhpg':
     from linggle.database import ZhPgLinggle as Linggle
 elif _backend == 'cassandra':
     from linggle.database import CassandraLinggle as Linggle
-elif _backend == ('pg', 'postgres'):
+elif _backend in ('pg', 'postgres'):
     from linggle.database import PostgresLinggle as Linggle
 else:
     from linggle.database import SqliteLinggle as Linggle
