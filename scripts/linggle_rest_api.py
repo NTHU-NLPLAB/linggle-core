@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from starlette.responses import UJSONResponse
+from fastapi.responses import UJSONResponse
 from fastapi import FastAPI, Header
 from pydantic import BaseModel
 from .linggle_database import linggle_it

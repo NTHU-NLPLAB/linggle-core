@@ -27,7 +27,7 @@ setup(
         'postgres': ["psycopg2-binary"],
         'cassandra': ["cassandra-driver"],
         'sqlite': ["sqlalchemy"],
-        'fastapi': ["fastapi", "uvicorn[standard]"],
+        'fastapi': ["fastapi", "ujson", "uvicorn[standard]"],
         'flask': ["flask"],
     },
     zip_safe=False)
