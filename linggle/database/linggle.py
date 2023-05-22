@@ -24,6 +24,9 @@ class BaseLinggle(LinggleCommand):
     def __getitem__(self, cmd):
         return self.__query(cmd)
 
+    def get(self, cmd, default=(), topn=None):
+        return self.__query(cmd, topn=topn) or default
+
     def __query(self, cmd, topn=50):
         cmds = self.expand_query(cmd)
         ngrams = self._query_many(cmds)
